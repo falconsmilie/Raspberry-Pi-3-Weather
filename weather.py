@@ -27,6 +27,10 @@ try:
     if weather == None:
         weather_request = WeatherRequest()
         weather_request.set_location(wconfig['location'])
-        
+        weather_request.set_api_key(wconfig['api_key'])
+        weather = weather_request.get_weather()
+
+    print(weather)
+    
 except Exception as e:
     print(e)
