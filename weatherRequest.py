@@ -19,7 +19,5 @@ class WeatherRequest(object):
     def get_weather(self):
 
         payload = {'id': self.__location, 'APPID': self.__api_key}
-        
-        #url = self.__endpoint + '?id=' + self.__location + '&APPID=' + self.__api_key
 
         return get(self.__endpoint, params=payload).json()
