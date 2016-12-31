@@ -1,4 +1,3 @@
-import sys
 from models.weatherCache import *
 from models.weatherConfig import *
 from models.weatherRequest import *
@@ -20,14 +19,21 @@ try:
     if wconfig == None:
         raise Exception('No config can be found.')
 
+    location = wconfig['location']
+    
     # Caching
-    open_weather_cache = WeatherCache()
-    weather = open_weather_cache.check_cache(wconfig['location'])
+    weather_cache = WeatherCache()
+    weather_cache.clean_cache()
+    print('WeatherCache: Cache cleaned')
+    
+    weather = weather_cache.check_cache(location)
 
     if weather == None:
         weather_request = WeatherRequest()
         weather_request.set_params(wconfig)
         weather = weather_request.get_weather()
+        
+        weather_cache.set_cache(weather, location)
 
     print(weather)
     
