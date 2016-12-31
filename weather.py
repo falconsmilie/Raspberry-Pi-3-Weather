@@ -1,7 +1,7 @@
 import sys
-from weatherCache import *
-from weatherConfig import *
-from weatherRequest import *
+from models.weatherCache import *
+from models.weatherConfig import *
+from models.weatherRequest import *
 
 # Testing Controller
 try:
