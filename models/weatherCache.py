@@ -1,5 +1,5 @@
 from os import path, walk, listdir, remove
-from pathlib import Path as path_lib
+import glob
 import time
 
 class WeatherCache(object):
@@ -27,13 +27,17 @@ class WeatherCache(object):
 
     def check_cache(self, filename):
         """ Check for existence of a cache file """
+
+        files = glob.glob(self.__path_to_cache + '*[0-9]-' + filename + '.json')
+
+        if files:
+            filename = files[0]
         
-        cache_file_path = path.join(
-            path.dirname(path.realpath('__file__')),
-            self.__path_to_cache + filename + self.__cache_file_extension
-        )
-        
-        if path_lib(cache_file_path).is_file():
+            cache_file_path = path.join(
+                path.dirname(path.realpath('__file__')),
+                filename
+            )
+
             return self.read_cache(cache_file_path)
         else:
             return None

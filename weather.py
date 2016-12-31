@@ -32,7 +32,7 @@ try:
         weather_request = WeatherRequest()
         weather_request.set_params(wconfig)
         weather = weather_request.get_weather()
-        
+        print('Request Weather')        
         weather_cache.set_cache(weather, location)
 
     print(weather)
