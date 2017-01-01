@@ -25,15 +25,18 @@ try:
     weather_cache = WeatherCache()
     weather_cache.clean_cache()
     print('WeatherCache: Cache cleaned')
-    
+
+    #Get Weather
     weather = weather_cache.check_cache(location)
 
     if weather == None:
         weather_request = WeatherRequest()
         weather_request.set_params(wconfig)
         weather = weather_request.get_weather()
-        print('Request Weather')        
+        print('WeatherRequest" Request Weather')
+        
         weather_cache.set_cache(weather, location)
+        print('WeatherCache" Cached Weather')
 
     print(weather)
     
