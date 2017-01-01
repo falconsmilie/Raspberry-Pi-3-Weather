@@ -2,3 +2,4 @@ cache/*
 config/
 __pycache__/
 models/__init__.py
+models/*.pyc
