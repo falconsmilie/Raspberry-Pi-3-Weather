@@ -6,16 +6,21 @@ class WeatherRequest(object):
     def __init__(self):
         """ Construct sets members required for processing request. """
 
-        self.__endpoint = 'http://api.openweathermap.org/data/2.5/weather'
+        self.__endpoint_base_url = 'http://api.openweathermap.org/data/2.5/'
+        #self.__endpoint_weather = 'weather'
+        #self.__endpoint_5_day_forecast = 'forecast'
+        
+        self.__request_type = None
         self.__location = None
         self.__api_key = None
         self.__units = None
-        self.__lang = 'en'
+        self.__lang = None
 
     def set_params(self, params):
         """ Set local configuration values """
 
         try:
+            self.set_request_type(params['request_type'])
             self.set_location(params['location'])
             self.set_api_key(params['api_key'])
             self.set_units(params['units'])
@@ -24,6 +29,11 @@ class WeatherRequest(object):
         except KeyError as e:
             raise Exception(repr('Not a valid config key: ' + str(e)))
 
+        return None
+
+    def set_request_type(self, request_type):
+        """ The type of request the user wants """
+        self.__request_type = request_type
         return None
 
     def set_location(self, location):
@@ -43,8 +53,7 @@ class WeatherRequest(object):
 
     def set_lang(self, lang):
         """ Set the Langauge Description is returned in """
-        if lang:
-            self.__lang = lang
+        self.__lang = lang
         return None
 
     def get_weather(self):
@@ -57,7 +66,10 @@ class WeatherRequest(object):
             'APPID': self.__api_key
         }
 
-        response = get(self.__endpoint, params=payload).json()
+        response = get(
+            self.__endpoint_base_url + self.__request_type,
+            params=payload
+        ).json()
 
         try:
             # There has been an error returned from the server
