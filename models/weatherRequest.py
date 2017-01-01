@@ -44,4 +44,15 @@ class WeatherRequest(object):
             'APPID': self.__api_key
         }
 
-        return get(self.__endpoint, params=payload).json()
+        response = get(self.__endpoint, params=payload).json()
+
+        try:
+            # There has been an error returned from the server
+            if response['message']:
+                raise Exception(
+                    'Request Error: ' + response['message']
+                )
+
+        except KeyError as e:
+            # The response is OK
+            return response
