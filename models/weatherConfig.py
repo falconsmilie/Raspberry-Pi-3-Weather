@@ -1,6 +1,6 @@
 import json
-import os
-from pathlib import Path
+from os import path
+from pathlib import Path as path_lib
 
 
 class WeatherConfigError(Exception):
@@ -22,16 +22,14 @@ class WeatherConfig(object):
     def set_config(self):
         """ Read and then set JSON config file to local member """
 
-        file_dir = os.path.dirname(os.path.realpath('__file__'))
+        file_dir = path.dirname(path.realpath('__file__'))
 
-        config_file_path = os.path.join(
+        config_file_path = path.join(
             file_dir,
             self.__relative_path_to_config_file
         )
 
-        config_file = Path(config_file_path)
-
-        if config_file.is_file():
+        if path_lib(config_file_path).is_file():
 
             json_config = open(config_file_path)
             self.__config = json.load(json_config)
