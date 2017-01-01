@@ -2,16 +2,16 @@ from os import path, walk, listdir, remove
 import glob
 import time
 
+
 class WeatherCache(object):
 
     def __init__(self):
         self.__path_to_cache = 'cache/'
         self.__cache_file_extension = '.json'
 
-
     def clean_cache(self):
         """ Removes cache files older than 10 minutes """
-        
+
         files = []
         for file in listdir(self.__path_to_cache):
             if file.endswith('.json'):
@@ -24,15 +24,18 @@ class WeatherCache(object):
             if (timestamp - float(file_timestamp)) / 60 > 10:
                 remove(self.__path_to_cache + file)
 
+        return None
 
     def check_cache(self, filename):
-        """ Check for existence of a cache file """
+        """ Check for existence of a cache file based on city ID """
 
-        files = glob.glob(self.__path_to_cache + '*[0-9]-' + filename + '.json')
+        files = glob.glob(
+            self.__path_to_cache + '*[0-9]-' + filename + '.json'
+        )
 
         if files:
             filename = files[0]
-        
+
             cache_file_path = path.join(
                 path.dirname(path.realpath('__file__')),
                 filename
@@ -41,7 +44,6 @@ class WeatherCache(object):
             return self.read_cache(cache_file_path)
         else:
             return None
-
 
     def read_cache(self, filename):
         """ Read cache file """
@@ -52,18 +54,19 @@ class WeatherCache(object):
 
         return weather
 
-
     def set_cache(self, weather, location):
         """ Add the weather data to the cache """
 
-        # Make sure we have strings
         weather = '{}'.format(weather)
         cache_time = '{}'.format(time.time())
-        
+
         # Remove seconds from timestamp
-        file_name = self.__path_to_cache + '{:.10}'.format(cache_time) + '-' + location + '.json'
-        
-        cache_file = open(file_name, 'w+', 1, 'utf-8')
+        cache_time = '{:.10}'.format(cache_time)
+
+        file = self.__path_to_cache + cache_time + '-' + location + '.json'
+
+        cache_file = open(file, 'w+', 1, 'utf-8')
         cache_file.write(weather)
         cache_file.close()
-        
+
+        return None
