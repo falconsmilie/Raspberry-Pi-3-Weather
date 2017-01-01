@@ -6,10 +6,7 @@ class WeatherRequest(object):
     def __init__(self):
         """ Construct sets members required for processing request. """
 
-        self.__endpoint_base_url = 'http://api.openweathermap.org/data/2.5/'
-        #self.__endpoint_weather = 'weather'
-        #self.__endpoint_5_day_forecast = 'forecast'
-        
+        self.__endpoint_base_url = 'http://api.openweathermap.org/data/2.5/'        
         self.__request_type = None
         self.__location = None
         self.__api_key = None
@@ -38,7 +35,7 @@ class WeatherRequest(object):
 
     def set_location(self, location):
         """ Set the location we want to query """
-        self.__location = location
+        self.__location = '{}'.format(location)
         return None
 
     def set_api_key(self, api_key):
@@ -65,19 +62,39 @@ class WeatherRequest(object):
             'lang': self.__lang,
             'APPID': self.__api_key
         }
+        
+        try:
+            response = get(
+                self.__endpoint_base_url + self.__request_type,
+                params=payload
+            ).json()
+        
+        except ValueError as e:
+            raise Exception(e)
+        
+        if self.__request_type == 'weather':
+            response = self.__validate_response_weather(response)
+        
+        elif self.__request_type == 'forecast':
+            response = self.validate_response_forecast(response)
+            
+        return response
 
-        response = get(
-            self.__endpoint_base_url + self.__request_type,
-            params=payload
-        ).json()
-
+    def validate_response_weather(self, response):
+        """ Validates the 'weather' type response """
         try:
             # There has been an error returned from the server
             if response['message']:
-                raise Exception(
-                    'Request Error: ' + response['message']
-                )
+                raise Exception('Request Error: ' + response['message'])
 
         except KeyError as e:
-            # The response is OK
-            return response
+            return repsonse
+
+    def validate_response_forecast(self, response):
+        """ API returns a 'message' att for success and fail :S """
+
+        # There has been an error returned from the server
+        if response['message'] and type(response['message']) == 'str':
+            raise Exception('Request Error: ' + response['message'])
+
+        return response
