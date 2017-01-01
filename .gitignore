@@ -1,5 +1,6 @@
 cache/*
 config/*.json
+config/*.pyc
 __pycache__/
 models/*.pyc
 tests/*.pyc
