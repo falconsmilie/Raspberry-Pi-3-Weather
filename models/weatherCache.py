@@ -9,7 +9,7 @@ class WeatherCache(object):
         self.__path_to_cache = 'cache/'
         self.__cache_file_extension = '.json'
 
-    def clean_cache(self):
+    def clean_cache(self, cache_time=10):
         """ Removes cache files older than 10 minutes """
 
         files = []
@@ -21,7 +21,7 @@ class WeatherCache(object):
             file_timestamp = '{:.10}'.format(file)
             timestamp = time.time()
 
-            if (timestamp - float(file_timestamp)) / 60 > 10:
+            if (timestamp - float(file_timestamp)) / 60 > cache_time:
                 remove(self.__path_to_cache + file)
 
         return None
@@ -29,6 +29,8 @@ class WeatherCache(object):
     def check_cache(self, filename):
         """ Check for existence of a cache file based on city ID """
 
+        filename = '{}'.format(filename)
+        
         files = glob.glob(
             self.__path_to_cache + '*[0-9]-' + filename + '.json'
         )
@@ -58,14 +60,14 @@ class WeatherCache(object):
         """ Add the weather data to the cache """
 
         weather = '{}'.format(weather)
+        location = '{}'.format(location)
         cache_time = '{}'.format(time.time())
-
-        # Remove seconds from timestamp
+        # Remove micro seconds from timestamp
         cache_time = '{:.10}'.format(cache_time)
 
-        file = self.__path_to_cache + cache_time + '-' + location + '.json'
+        file_name = self.__path_to_cache + cache_time + '-' + location + '.json'
 
-        cache_file = open(file, 'w+', 1, 'utf-8')
+        cache_file = open(file_name, 'w+')
         cache_file.write(weather)
         cache_file.close()
 
