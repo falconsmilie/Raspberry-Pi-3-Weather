@@ -6,7 +6,7 @@ class WeatherRequest(object):
     def __init__(self):
         """ Construct sets members required for processing request. """
 
-        self.__endpoint_base_url = 'http://api.openweathermap.org/data/2.5/'        
+        self.__endpoint_url = 'http://api.openweathermap.org/data/2.5/'
         self.__request_type = None
         self.__location = None
         self.__api_key = None
@@ -83,7 +83,7 @@ class WeatherRequest(object):
 
         try:
             response = get(
-                self.__endpoint_base_url + self.__request_type,
+                self.__endpoint_url + self.__request_type,
                 params=payload
             ).json()
 
