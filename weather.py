@@ -39,4 +39,4 @@ try:
     print(weather)
 
 except Exception as e:
-    print(weather)
+    print(e)
