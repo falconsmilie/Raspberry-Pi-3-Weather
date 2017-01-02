@@ -7,7 +7,6 @@ class WeatherCache(object):
 
     def __init__(self):
         self.__path_to_cache = 'cache/'
-        self.__cache_file_extension = '.json'
 
     def clean_cache(self, cache_time=10):
         """ Removes cache files older than 10 minutes """
