@@ -31,7 +31,7 @@ class WeatherCache(object):
         """ Check for a cache file based on city ID and request type """
 
         filename = '{}'.format(filename)
-        
+
         files = glob.glob(
             self.__path_to_cache + request_type + '/*[0-9]-' + filename + '.json'
         )
