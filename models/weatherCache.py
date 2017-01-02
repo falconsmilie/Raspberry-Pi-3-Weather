@@ -19,21 +19,21 @@ class WeatherCache(object):
                     files.append(file)
 
             for file in files:
-                file_timestamp = '{:.10}'.format(file)
+                filetimestamp = '{:.10}'.format(file)
                 timestamp = time.time()
 
-                if (timestamp - float(file_timestamp)) / 60 > cache_time:
+                if (timestamp - float(filetimestamp)) / 60 > cache_time:
                     remove(self.__path_to_cache + file)
 
         return None
 
-    def check_cache(self, filename, request_type):
+    def check_cache(self, filename, request):
         """ Check for a cache file based on city ID and request type """
 
-        filename = '{}'.format(filename)
+        name = '{}'.format(filename)
 
         files = glob.glob(
-            self.__path_to_cache + request_type + '/*[0-9]-' + filename + '.json'
+            self.__path_to_cache + request + '/*[0-9]-' + name + '.json'
         )
 
         if files:

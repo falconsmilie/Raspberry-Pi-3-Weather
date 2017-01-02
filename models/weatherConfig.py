@@ -16,7 +16,8 @@ class WeatherConfigError(Exception):
 class WeatherConfig(object):
 
     def __init__(self):
-        self.__relative_path_to_config_file = 'config/weatherConfig.json'
+        """ Set local members """
+        self.__path_to_config_file = 'config/weatherConfig.json'
         self.__config = None
 
     def set_config(self):
@@ -26,7 +27,7 @@ class WeatherConfig(object):
 
         config_file_path = path.join(
             file_dir,
-            self.__relative_path_to_config_file
+            self.__path_to_config_file
         )
 
         if path_lib(config_file_path).is_file():

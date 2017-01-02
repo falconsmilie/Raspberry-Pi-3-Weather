@@ -34,7 +34,7 @@ try:
             location,
             wconfig['request_type']
         )
-        
+
 
     print(weather)
 
