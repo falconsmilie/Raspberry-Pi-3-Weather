@@ -1,4 +1,7 @@
-cache/*
+cache/*.pyc
+cache/forecast5/*.pyc
+cache/forecast16/*.pyc
+cache/weather/*.pyc
 config/*.json
 config/*.pyc
 __pycache__/
