@@ -74,10 +74,10 @@ class WeatherRequest(object):
         }
 
         # Two types of 'forecast' requests are available
-        if self.__request_type == 'forecast5':
+        if self.__request_type is 'forecast5':
             self.set_request_type('forecast')
 
-        elif self.__request_type == 'forecast16':
+        elif self.__request_type is 'forecast16':
             self.set_request_type('forecast/daily')
             payload['cnt'] = self.__forecast16_count
 
@@ -91,7 +91,7 @@ class WeatherRequest(object):
             raise Exception(e)
 
         if self.__request_type == 'weather':
-            response = self.__validate_response_weather(response)
+            response = self.validate_response_weather(response)
 
         elif self.__request_type == 'forecast':
             response = self.validate_response_forecast(response)
@@ -109,7 +109,7 @@ class WeatherRequest(object):
                 raise Exception('Request Error: ' + response['message'])
 
         except KeyError as e:
-            return repsonse
+            return response
 
     def validate_response_forecast(self, response):
         """ API returns a 'message' att for success and fail :S """
