@@ -19,16 +19,24 @@ try:
     weather_cache.clean_cache()
 
     # Get Weather
-    weather = weather_cache.check_cache(location)
+    weather = weather_cache.check_cache(
+        location,
+        wconfig['request_type']
+    )
 
     if weather is None:
         weather_request = WeatherRequest()
         weather_request.set_params(wconfig)
         weather = weather_request.get_weather()
 
-        weather_cache.set_cache(weather, location)
+        weather_cache.set_cache(
+            weather,
+            location,
+            wconfig['request_type']
+        )
+        
 
     print(weather)
 
 except Exception as e:
-    print(str(e))
+    print(e)
