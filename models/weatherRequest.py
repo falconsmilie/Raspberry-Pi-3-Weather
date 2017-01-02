@@ -97,6 +97,11 @@ class WeatherRequest(object):
         except ValueError as e:
             raise Exception(e)
 
+        return self.validate_response(response)
+
+    def validate_response(self, response):
+        """ Validate the response"""
+
         if self.__request_type == 'weather':
             response = self.validate_response_weather(response)
 
