@@ -13,17 +13,26 @@ class WeatherCache(object):
         """ Removes cache files older than '10' minutes """
 
         for cache_folder in self.__cache_folders:
-            files = []
-            for file in listdir(self.__path_to_cache):
-                if file.endswith('.json'):
-                    files.append(file)
 
-            for file in files:
-                filetimestamp = '{:.10}'.format(file)
+            files = []
+            directory = path.join(self.__path_to_cache, cache_folder)
+
+            for filename in listdir(directory):
+                print(filename)
+                if filename.endswith('.json'):
+                    files.append(filename)
+
+            for filename in files:
+                filetimestamp = '{:.10}'.format(filename)
                 timestamp = time.time()
 
                 if (timestamp - float(filetimestamp)) / 60 > cache_time:
-                    remove(self.__path_to_cache + file)
+                    file_del = path.join(
+                        self.__path_to_cache,
+                        cache_folder,
+                        filename
+                    )
+                    remove(file_del)
 
         return None
 
