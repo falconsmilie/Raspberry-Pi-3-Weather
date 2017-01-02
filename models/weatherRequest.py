@@ -6,7 +6,8 @@ class WeatherRequest(object):
     def __init__(self):
         """ Construct sets members required for processing request. """
 
-        self.__endpoint_url = 'http://api.openweathermap.org/data/2.5/'
+        self.__endpoint = 'http://api.openweathermap.org/data/2.5/'
+        self.__request_timeout = 10
         self.__request_type = None
         self.__location = None
         self.__api_key = None
@@ -30,7 +31,7 @@ class WeatherRequest(object):
                 self.set_forecast_count(params['forecast_count'])
 
         except KeyError as e:
-            raise Exception(r'Invalid Config key: ' + '{}'.format(e))
+            raise Exception('Invalid Config key: ' + '{}'.format(e))
 
         return None
 
@@ -88,8 +89,9 @@ class WeatherRequest(object):
 
         try:
             response = get(
-                self.__endpoint_url + self.__request_type,
-                params=payload
+                self.__endpoint + self.__request_type,
+                params=payload,
+                timeout=self.__request_timeout
             ).json()
 
         except ValueError as e:
