@@ -28,7 +28,7 @@ class WeatherCache(object):
         return None
 
     def check_cache(self, filename, request_type):
-        """ Check for existence of a cache file based on city ID """
+        """ Check for a cache file based on city ID and request type """
 
         filename = '{}'.format(filename)
         
@@ -49,7 +49,7 @@ class WeatherCache(object):
             return None
 
     def read_cache(self, filename):
-        """ Read cache file """
+        """ Read and return cache file """
 
         weather_cache = open(filename, 'rU')
         weather = weather_cache.read()
