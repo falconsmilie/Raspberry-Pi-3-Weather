@@ -74,10 +74,10 @@ class WeatherRequest(object):
         }
 
         # Two types of 'forecast' requests are available
-        if self.__request_type is 'forecast5':
+        if self.__request_type == 'forecast5':
             self.set_request_type('forecast')
 
-        elif self.__request_type is 'forecast16':
+        elif self.__request_type == 'forecast16':
             self.set_request_type('forecast/daily')
             payload['cnt'] = self.__forecast16_count
 
