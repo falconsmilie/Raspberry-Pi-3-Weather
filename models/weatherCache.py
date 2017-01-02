@@ -18,7 +18,6 @@ class WeatherCache(object):
             directory = path.join(self.__path_to_cache, cache_folder)
 
             for filename in listdir(directory):
-                print(filename)
                 if filename.endswith('.json'):
                     files.append(filename)
 
