@@ -29,7 +29,6 @@ class WeatherRequest(object):
                 self.set_forecast16_count(params['forecast16_count'])
 
         except KeyError as e:
-            print(str(e))
             raise Exception(repr('Not a valid config key: ' + str(e)))
 
         return None
@@ -66,6 +65,7 @@ class WeatherRequest(object):
 
     def get_weather(self):
         """ Send the request """
+        
         payload = {
             'id': self.__location,
             'units': self.__units,
