@@ -25,8 +25,8 @@ class WeatherRequest(object):
             self.set_units(params['units'])
             self.set_lang(params['lang'])
 
-            if (self.__request_type is 'forecast16' or
-                self.__request_type is 'forecast5'):
+            if (self.__request_type == 'forecast16' or
+                self.__request_type == 'forecast5'):
                 # Count is specific to forecast5 and forecast16
                 self.set_forecast_count(params['forecast_count'])
 
@@ -60,7 +60,7 @@ class WeatherRequest(object):
         self.__lang = lang
         return None
 
-    def set_forecast16_count(count):
+    def set_forecast_count(self, count):
         """ Set the day count for forecast 16 request """
         self.__forecast_count = count
         return None
