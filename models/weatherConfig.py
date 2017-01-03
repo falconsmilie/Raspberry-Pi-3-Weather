@@ -23,10 +23,8 @@ class WeatherConfig(object):
     def set_config(self):
         """ Read and then set JSON config file to local member """
 
-        file_dir = path.dirname(path.realpath('__file__'))
-
         config_file_path = path.join(
-            file_dir,
+            path.dirname(path.realpath('__file__')),
             self.__path_to_config_file
         )
 
