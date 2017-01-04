@@ -50,7 +50,7 @@ class WeatherResponseWeather(object):
             raise Exception('Invalid Response Key: ' + '{}'.format(e))
 
     def fix_json_string(self, weather):
-        """ Response from server is dict and cache is string """
+        """ Response from server is a dict and cache is a string """
 
         if type(weather) is dict:
             weather = json.dumps(weather)
