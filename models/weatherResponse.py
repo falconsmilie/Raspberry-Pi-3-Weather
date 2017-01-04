@@ -18,3 +18,5 @@ class WeatherResponse(object):
             response = WeatherRequestForecast16()
 
         response.set_response(weather)
+
+        return response

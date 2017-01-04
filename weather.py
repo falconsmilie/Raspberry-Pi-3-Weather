@@ -33,9 +33,9 @@ try:
 
     # Package up Response
     weather_response = WeatherResponse()
-    weather_response.set_response(weather, request_type)
+    response = weather_response.set_response(weather, request_type)
 
-    print(weather)
+    print(response.get_city_name())
 
 except Exception as e:
     print(e)
