@@ -12,10 +12,10 @@ class WeatherResponse(object):
             response = WeatherResponseWeather()
 
         elif request == 'forecast5':
-            response = WeatherRequestForecast5()
+            response = WeatherResponseForecast5()
 
         elif request == 'forecast16':
-            response = WeatherRequestForecast16()
+            response = WeatherResponseForecast16()
 
         response.set_response(weather)
 
