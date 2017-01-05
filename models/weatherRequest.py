@@ -19,6 +19,7 @@ class WeatherRequest(object):
         """ Set local configuration values """
 
         try:
+            # Standard vars for every request type
             self.set_request_type(params['request_type'])
             self.set_location(params['location'])
             self.set_api_key(params['api_key'])
@@ -27,8 +28,13 @@ class WeatherRequest(object):
 
             if (self.__request_type == 'forecast16' or
                 self.__request_type == 'forecast5'):
-                # Count is specific to forecast5 and forecast16
-                self.set_forecast_count(params['forecast_count'])
+                # Count is specific to forecast5 and forecast16 requests
+                if self.__request_type == 'forecast5':
+                    count = params['forecast_count_5']
+                else:
+                    count = params['forecast_count_16']
+
+                self.set_forecast_count(count)
 
         except KeyError as e:
             raise Exception('Invalid Config key: ' + '{}'.format(e))
@@ -75,7 +81,8 @@ class WeatherRequest(object):
             'APPID': self.__api_key
         }
 
-        # Two types of 'forecast' requests are available
+        # Two types of 'forecast' requests are available. They both have
+        # different endpoints and allow for a 'count' parameter.
         if (self.__request_type == 'forecast5' or
             self.__request_type == 'forecast16'):
             # Both forecasts except a count value
