@@ -1,7 +1,9 @@
 from models.weatherCache import *
 from models.weatherConfig import *
 from models.weatherRequest import *
-from models.weatherResponse import *
+from models.weatherResponseWeather import *
+from models.weatherResponseForecast5 import *
+from models.weatherResponseForecast16 import *
 
 # Testing Controller
 try:
@@ -32,8 +34,16 @@ try:
         weather_cache.set_cache(weather, location, request_type)
 
     # Package up Response
-    weather_response = WeatherResponse()
-    response = weather_response.set_response(weather, request_type)
+    if request_type == 'weather':
+        response = WeatherResponseWeather()
+
+    elif request_type == 'forecast5':
+        response = WeatherResponseForecast5()
+
+    elif request_type == 'forecast16':
+        response = WeatherResponseForecast16()
+
+    response.set_response(weather)
 
     print(response.get_city_name())
 

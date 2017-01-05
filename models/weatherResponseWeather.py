@@ -1,19 +1,17 @@
-import json
+from models.weatherResponse import *
 
 
-class WeatherResponseWeather(object):
+class WeatherResponseWeather(WeatherResponse):
 
     def __init__(self):
-        """ Members of the response """
-        self.__city_name = None
-        self.__city_id = None
-        self.__country = None
+
+        super(WeatherResponse, self).__init__()
+
+        """ Members of the 'weather' type response """
         self.__sunrise = None
         self.__sunset = None
         self.__weather_desc_main = None
         self.__weather_desc = None
-        self.__coord_lat = None
-        self.__coord_lon = None
         self.__time_of_weather = None
         self.__pressure = None
         self.__temp = None
@@ -26,7 +24,8 @@ class WeatherResponseWeather(object):
     def set_response(self, weather):
         """ Sets response variables to local members """
         try:
-            weather = self.fix_json_string(weather)
+            json_util = WeatherJson()
+            weather = json_util.fix_json_string(weather)
 
             self.set_city_name(weather['name'])
             self.set_city_id(weather['id'])
@@ -49,6 +48,8 @@ class WeatherResponseWeather(object):
         except KeyError as e:
             raise Exception('Invalid Response Key: ' + '{}'.format(e))
 
+        return None
+
     def fix_json_string(self, weather):
         """ Response from server is a dict and cache is a string """
 
@@ -60,28 +61,6 @@ class WeatherResponseWeather(object):
         weather = json.loads(weather)
 
         return weather
-
-    def set_city_name(self, name):
-        self.__city_name = name
-        return None
-
-    def get_city_name(self):
-        return self.__city_name
-
-    def set_city_id(self, name):
-        self.__city_id = name
-        return None
-
-    def get_city_id(self):
-        return self.__city_id
-
-    def set_country(self, country):
-        """ Country code (GB, JP etc.) """
-        self.__country = country
-        return None
-
-    def get_country(self):
-        return self.__country
 
     def set_sunrise(self, sunrise):
         """ Sunrise time, unix, UTC """
@@ -112,20 +91,6 @@ class WeatherResponseWeather(object):
 
     def get_weather_desc(self):
         return self.__weather_desc
-
-    def set_coord_lat(self, coord_lat):
-        self.__coord_lat = coord_lat
-        return None
-
-    def get_coord_lat(self):
-        return self.__coord_lat
-
-    def set_coord_lon(self, coord_lon):
-        self.__coord_lon = coord_lon
-        return None
-
-    def get_coord_lon(self):
-        return self.__coord_lon
 
     def set_time_of_weather(self, time_of_weather):
         """ Time of data calculation, unix, UTC """

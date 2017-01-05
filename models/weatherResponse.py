@@ -1,22 +1,47 @@
-from models.weatherResponseWeather import *
-from models.weatherResponseForecast5 import *
-from models.weatherResponseForecast16 import *
-
+from utils.weatherJson import *
 
 class WeatherResponse(object):
 
-    def set_response(self, weather, request):
-        """ Determine what kind of response to return """
+    def __init__(self):
+        """ Members available to each response type """
+        self.__city_name = None
+        self.__city_id = None
+        self.__country = None
+        self.__coord_lat = None
+        self.__coord_lon = None
 
-        if request == 'weather':
-            response = WeatherResponseWeather()
+    def set_city_name(self, name):
+        self.__city_name = name
+        return None
 
-        elif request == 'forecast5':
-            response = WeatherResponseForecast5()
+    def get_city_name(self):
+        return self.__city_name
 
-        elif request == 'forecast16':
-            response = WeatherResponseForecast16()
+    def set_city_id(self, name):
+        self.__city_id = name
+        return None
 
-        response.set_response(weather)
+    def get_city_id(self):
+        return self.__city_id
 
-        return response
+    def set_country(self, country):
+        """ Country code (GB, JP etc.) """
+        self.__country = country
+        return None
+
+    def get_country(self):
+        return self.__country
+
+    def set_coord_lat(self, coord_lat):
+        self.__coord_lat = coord_lat
+        return None
+
+    def get_coord_lat(self):
+        return self.__coord_lat
+
+    def set_coord_lon(self, coord_lon):
+        self.__coord_lon = coord_lon
+        return None
+
+    def get_coord_lon(self):
+        return self.__coord_lon
