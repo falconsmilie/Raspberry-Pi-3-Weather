@@ -1,12 +1,6 @@
-cache/*.pyc
-cache/forecast5/*.pyc
+**.pyc
 cache/forecast5/*.json
-cache/forecast16/*.pyc
 cache/forecast16/*.json
-cache/weather/*.pyc
 cache/weather/*.json
 config/*.json
-config/*.pyc
 __pycache__/
-models/*.pyc
-tests/*.pyc
