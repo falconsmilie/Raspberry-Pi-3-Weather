@@ -50,18 +50,6 @@ class WeatherResponseWeather(WeatherResponse):
 
         return None
 
-    def fix_json_string(self, weather):
-        """ Response from server is a dict and cache is a string """
-
-        if type(weather) is dict:
-            weather = json.dumps(weather)
-
-        weather = weather.replace("'",'"')
-        weather = weather.replace('u"','"')
-        weather = json.loads(weather)
-
-        return weather
-
     def set_sunrise(self, sunrise):
         """ Sunrise time, unix, UTC """
         self.__sunrise = sunrise
