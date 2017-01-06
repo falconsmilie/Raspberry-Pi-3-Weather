@@ -134,7 +134,7 @@ class WeatherRequest(object):
         """ API returns a 'message' att for success and fail :S """
 
         # There has been an error returned from the server
-        if response['message'] and type(response['message']) == 'str':
+        if response['message'] and isinstance(response['message'], str):
             raise Exception('Request Error: ' + response['message'])
 
         return response
