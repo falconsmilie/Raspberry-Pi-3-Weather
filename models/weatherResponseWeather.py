@@ -38,13 +38,17 @@ class WeatherResponseWeather(WeatherResponse):
             self.set_time_of_weather(weather['dt'])
 
             # List of weather data
-            list_response = WeatherResponseList()
-            list_response.set_response(weather)
-            self.__weather_list = list_response
+            self.set_list(weather)
 
         except KeyError as e:
             raise Exception('Invalid Response Key: ' + '{}'.format(e))
 
+        return None
+
+    def set_list(self, weather):
+        list_response = WeatherResponseList()
+        list_response.set_response(weather)
+        self.__weather_list = list_response
         return None
 
     def get_list(self):
