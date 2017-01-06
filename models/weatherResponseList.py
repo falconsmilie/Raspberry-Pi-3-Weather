@@ -18,8 +18,7 @@ class WeatherResponseList(object):
             self.set_temp_min(weather['main']['temp_min'])
             self.set_temp_max(weather['main']['temp_max'])
             self.set_humidity(weather['main']['humidity'])
-            self.set_wind_speed(weather['wind']['speed'])
-            #self.set_wind_deg(weather['wind']['deg'])
+            self.set_wind(weather)
 
         except KeyError as e:
             raise Exception('Invalid Response Key: ' + '{}'.format(e))
@@ -71,12 +70,15 @@ class WeatherResponseList(object):
     def get_humidity(self):
         return self.__humidity
 
-    def set_wind_speed(self, wind_speed):
-        self.__wind_speed = wind_speed
-        return None
+    def set_wind(self, weather):
 
-    def get_wind_speed(self):
-        return self.__wind_speed
+        if 'wind' in weather:
+
+            if 'deg' in weather['wind']:
+                self.set_wind_deg(weather['wind']['deg'])
+
+            if 'speed' in weather['wind']:
+                self.set_wind_speed(weather['wind']['speed'])
 
     def set_wind_deg(self, wind_deg):
         self.__wind_deg = wind_deg
@@ -84,3 +86,10 @@ class WeatherResponseList(object):
 
     def get_wind_deg(self):
         return self.__wind_deg
+
+    def set_wind_speed(self, wind_speed):
+        self.__wind_speed = wind_speed
+        return None
+
+    def get_wind_speed(self):
+        return self.__wind_speed
