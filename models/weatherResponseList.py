@@ -19,7 +19,7 @@ class WeatherResponseList(object):
             self.set_temp_max(weather['main']['temp_max'])
             self.set_humidity(weather['main']['humidity'])
             self.set_wind_speed(weather['wind']['speed'])
-            self.set_wind_deg(weather['wind']['deg'])
+            #self.set_wind_deg(weather['wind']['deg'])
 
         except KeyError as e:
             raise Exception('Invalid Response Key: ' + '{}'.format(e))
