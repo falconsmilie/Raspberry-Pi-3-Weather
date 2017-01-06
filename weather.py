@@ -48,8 +48,11 @@ try:
     weatherlist = response.get_list()
 
     # Test forecast
-    for w_list in weatherlist:
-        print(w_list.get_temp())
+    #for w_list in weatherlist:
+        #print(w_list.get_temp())
+
+    # Test weather list
+    print(weatherlist.get_temp())
 
 except Exception as e:
     print(e)

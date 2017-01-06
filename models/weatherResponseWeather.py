@@ -1,4 +1,5 @@
 from models.weatherResponse import *
+from models.weatherResponseList import *
 
 
 class WeatherResponseWeather(WeatherResponse):
@@ -14,12 +15,7 @@ class WeatherResponseWeather(WeatherResponse):
         self.__weather_desc = None
         self.__time_of_weather = None
         self.__pressure = None
-        self.__temp = None
-        self.__temp_min = None
-        self.__temp_max = None
-        self.__humidity = None
-        self.__wind_speed = None
-        self.__wind_deg = None
+        self.__weather_list = None
 
     def set_response(self, weather):
         """ Sets response variables to local members """
@@ -34,26 +30,25 @@ class WeatherResponseWeather(WeatherResponse):
             self.set_coord_lat(weather['coord']['lat'])
             self.set_coord_lon(weather['coord']['lon'])
 
-            # 'Weather' request type members
+            # 'Weather' response type members
             self.set_sunrise(weather['sys']['sunrise'])
             self.set_sunset(weather['sys']['sunset'])
             self.set_weather_desc_main(weather['weather'][0]['main'])
             self.set_weather_desc(weather['weather'][0]['description'])
             self.set_time_of_weather(weather['dt'])
 
-            # Change to 'list' class???
-            self.set_pressure(weather['main']['pressure'])
-            self.set_temp(weather['main']['temp'])
-            self.set_temp_min(weather['main']['temp_min'])
-            self.set_temp_max(weather['main']['temp_max'])
-            self.set_humidity(weather['main']['humidity'])
-            self.set_wind_speed(weather['wind']['speed'])
-            self.set_wind_deg(weather['wind']['deg'])
+            # List of weather data
+            list_response = WeatherResponseList()
+            list_response.set_response(weather)
+            self.__weather_list = list_response
 
         except KeyError as e:
             raise Exception('Invalid Response Key: ' + '{}'.format(e))
 
         return None
+
+    def get_list(self):
+        return self.__weather_list
 
     def set_sunrise(self, sunrise):
         """ Sunrise time, unix, UTC """
