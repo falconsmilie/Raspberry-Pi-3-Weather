@@ -1,18 +1,7 @@
-from models.weatherResponse import *
-
-
-class WeatherResponseWeather(WeatherResponse):
+class WeatherResponseList(object):
 
     def __init__(self):
-
-        super(WeatherResponse, self).__init__()
-
-        """ Members of the 'weather' type response """
-        self.__sunrise = None
-        self.__sunset = None
-        self.__weather_desc_main = None
-        self.__weather_desc = None
-        self.__time_of_weather = None
+        """ Members of List """
         self.__pressure = None
         self.__temp = None
         self.__temp_min = None
@@ -24,24 +13,6 @@ class WeatherResponseWeather(WeatherResponse):
     def set_response(self, weather):
         """ Sets response variables to local members """
         try:
-            json_util = WeatherJson()
-            weather = json_util.fix_json_string(weather)
-
-            # Base members
-            self.set_city_name(weather['name'])
-            self.set_city_id(weather['id'])
-            self.set_country(weather['sys']['country'])
-            self.set_coord_lat(weather['coord']['lat'])
-            self.set_coord_lon(weather['coord']['lon'])
-
-            # 'Weather' request type members
-            self.set_sunrise(weather['sys']['sunrise'])
-            self.set_sunset(weather['sys']['sunset'])
-            self.set_weather_desc_main(weather['weather'][0]['main'])
-            self.set_weather_desc(weather['weather'][0]['description'])
-            self.set_time_of_weather(weather['dt'])
-
-            # Change to 'list' class???
             self.set_pressure(weather['main']['pressure'])
             self.set_temp(weather['main']['temp'])
             self.set_temp_min(weather['main']['temp_min'])
@@ -52,46 +23,6 @@ class WeatherResponseWeather(WeatherResponse):
 
         except KeyError as e:
             raise Exception('Invalid Response Key: ' + '{}'.format(e))
-
-        return None
-
-    def set_sunrise(self, sunrise):
-        """ Sunrise time, unix, UTC """
-        self.__sunrise = sunrise
-        return None
-
-    def get_sunrise(self):
-        return self.__sunrise
-
-    def set_sunset(self, sunset):
-        """ sunset time, unix, UTC """
-        self.__sunset = sunset
-        return None
-
-    def get_sunset(self):
-        return self.__sunset
-
-    def set_weather_desc_main(self, weather_desc_main):
-        self.__weather_desc_main = weather_desc_main
-        return None
-
-    def get_weather_desc_main(self):
-        return self.__weather_desc_main
-
-    def set_weather_desc(self, weather_desc):
-        self.__weather_desc = weather_desc
-        return None
-
-    def get_weather_desc(self):
-        return self.__weather_desc
-
-    def set_time_of_weather(self, time_of_weather):
-        """ Time of data calculation, unix, UTC """
-        self.__time_of_weather = time_of_weather
-        return None
-
-    def get_time_of_weather(self):
-        return self.__time_of_weather
 
     def set_pressure(self, pressure):
         """ Atmospheric pressure (on sea level, if no

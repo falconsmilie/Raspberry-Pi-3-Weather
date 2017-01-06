@@ -45,7 +45,11 @@ try:
 
     response.set_response(weather)
 
-    print(response.get_city_name())
+    weatherlist = response.get_list()
+
+    # Test forecast
+    for w_list in weatherlist:
+        print(w_list.get_temp())
 
 except Exception as e:
     print(e)
