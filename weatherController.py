@@ -47,13 +47,20 @@ try:
 
     weatherlist = response.get_list()
 
-    # Test forecast
+    # Test forecast 5
+    for w_list in weatherlist:
+        print(w_list.get_temp())
+        print(w_list.get_conditions().get_wind_speed())
+
+    # Test forecast 16
+    #print(response.get_city_name())
     #for w_list in weatherlist:
-        #print(w_list.get_temp())
+        #print(w_list.get_temp_min())
+        #print(w_list.get_temp_max())
 
     # Test weather list
-    print(weatherlist.get_temp())
-    print(weatherlist.get_conditions().get_wind_speed())
+    #print(weatherlist.get_temp())
+    #print(weatherlist.get_conditions().get_wind_speed())
 
 except Exception as e:
     print(e)
