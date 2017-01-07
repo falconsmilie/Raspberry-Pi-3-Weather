@@ -13,9 +13,13 @@ class WeatherResponseWeather(WeatherResponse):
         self.__sunset = None
         self.__weather_desc_main = None
         self.__weather_desc = None
+        self.__weather_icon_id = None
         self.__time_of_weather = None
         self.__pressure = None
         self.__weather_list = None
+        self.__clouds = None
+        self.__rain = None
+        self.__snow = None
 
     def set_response(self, weather):
         """ Sets response variables to local members """
@@ -35,9 +39,13 @@ class WeatherResponseWeather(WeatherResponse):
             self.set_sunset(weather['sys']['sunset'])
             self.set_weather_desc_main(weather['weather'][0]['main'])
             self.set_weather_desc(weather['weather'][0]['description'])
+            self.set_weather_icon_id(weather['weather'][0]['icon'])
             self.set_time_of_weather(weather['dt'])
+            self.set_clouds(weather)
+            self.set_rain(weather)
+            self.set_snow(weather)
 
-            # List of weather data
+            # weatherResponseList object
             self.set_list(weather)
 
         except KeyError as e:
@@ -83,6 +91,13 @@ class WeatherResponseWeather(WeatherResponse):
 
     def get_weather_desc(self):
         return self.__weather_desc
+
+    def set_weather_icon_id(self, weather_icon_id):
+        self.__weather_icon_id = weather_icon_id
+        return None
+
+    def get_weather_icon_id(self):
+        return self.__weather_icon_id
 
     def set_time_of_weather(self, time_of_weather):
         """ Time of data calculation, unix, UTC """
@@ -152,3 +167,27 @@ class WeatherResponseWeather(WeatherResponse):
 
     def get_wind_deg(self):
         return self.__wind_deg
+
+    def set_clouds(self, weather):
+        if 'clouds' in weather:
+            if 'all' in weather['clouds']:
+                self.__clouds = weather['clouds']['all']
+
+    def get_clouds(self):
+        return self.__clouds
+
+    def set_rain(self, weather):
+        if 'rain' in weather:
+            if '3h' in weather['rain']:
+                self.__rain = weather['rain']['3h']
+
+    def get_rain(self):
+        return self.__rain
+
+    def set_snow(self, weather):
+        if 'snow' in weather:
+            if '3h' in weather['snow']:
+                self.__snow = weather['snow']['3h']
+
+    def get_snow(self):
+        return self.__snow
