@@ -1,3 +1,6 @@
+from models.weatherResponseConditions import *
+
+
 class WeatherResponseList(object):
 
     def __init__(self):
@@ -11,6 +14,7 @@ class WeatherResponseList(object):
         self.__pressure = None
         self.__pressure_sea_level = None
         self.__pressure_ground_level = None
+        self.__conditions = None
 
     def set_response(self, weather):
         """ Sets response variables to local members """
@@ -19,8 +23,10 @@ class WeatherResponseList(object):
             self.set_temp_min(weather['main']['temp_min'])
             self.set_temp_max(weather['main']['temp_max'])
             self.set_humidity(weather['main']['humidity'])
-            self.set_wind(weather)
             self.set_pressures(weather['main'])
+
+            # weatherResponseConditions object
+            self.set_conditions(weather)
 
         except KeyError as e:
             raise Exception('Invalid Response Key: ' + '{}'.format(e))
@@ -62,30 +68,6 @@ class WeatherResponseList(object):
     def get_humidity(self):
         return self.__humidity
 
-    def set_wind(self, weather):
-
-        if 'wind' in weather:
-
-            if 'deg' in weather['wind']:
-                self.set_wind_deg(weather['wind']['deg'])
-
-            if 'speed' in weather['wind']:
-                self.set_wind_speed(weather['wind']['speed'])
-
-    def set_wind_deg(self, wind_deg):
-        self.__wind_deg = wind_deg
-        return None
-
-    def get_wind_deg(self):
-        return self.__wind_deg
-
-    def set_wind_speed(self, wind_speed):
-        self.__wind_speed = wind_speed
-        return None
-
-    def get_wind_speed(self):
-        return self.__wind_speed
-
     def set_pressures(self, weather_main):
         """ Atmospheric pressure (on sea level, if no
         sea_level or grnd_level data), hPa
@@ -109,3 +91,12 @@ class WeatherResponseList(object):
 
     def get_pressure_ground_level(self):
         return self.__pressure_ground_level
+
+    def set_conditions(self, weather):
+        condition_response = WeatherResponseConditions()
+        condition_response.set_conditions(weather)
+        self.__conditions = condition_response
+        return None
+
+    def get_conditions(self):
+        return self.__conditions
