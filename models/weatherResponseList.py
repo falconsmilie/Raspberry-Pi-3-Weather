@@ -2,36 +2,28 @@ class WeatherResponseList(object):
 
     def __init__(self):
         """ Members of List """
-        self.__pressure = None
         self.__temp = None
         self.__temp_min = None
         self.__temp_max = None
         self.__humidity = None
         self.__wind_speed = None
         self.__wind_deg = None
+        self.__pressure = None
+        self.__pressure_sea_level = None
+        self.__pressure_ground_level = None
 
     def set_response(self, weather):
         """ Sets response variables to local members """
         try:
-            self.set_pressure(weather['main']['pressure'])
             self.set_temp(weather['main']['temp'])
             self.set_temp_min(weather['main']['temp_min'])
             self.set_temp_max(weather['main']['temp_max'])
             self.set_humidity(weather['main']['humidity'])
             self.set_wind(weather)
+            self.set_pressures(weather['main'])
 
         except KeyError as e:
             raise Exception('Invalid Response Key: ' + '{}'.format(e))
-
-    def set_pressure(self, pressure):
-        """ Atmospheric pressure (on sea level, if no
-        sea_level or grnd_level data), hPa
-        """
-        self.__pressure = pressure
-        return None
-
-    def get_pressure(self):
-        return self.__pressure
 
     def set_temp(self, temp):
         """ Temperature. Unit Default: Kelvin,
@@ -93,3 +85,27 @@ class WeatherResponseList(object):
 
     def get_wind_speed(self):
         return self.__wind_speed
+
+    def set_pressures(self, weather_main):
+        """ Atmospheric pressure (on sea level, if no
+        sea_level or grnd_level data), hPa
+        """
+        if 'pressure' in weather_main:
+            self.__pressure = weather_main['pressure']
+
+        if 'sea_level' in weather_main:
+            self.__pressure_sea_level = weather_main['sea_level']
+
+        if 'grnd_level' in weather_main:
+            self.__pressure_ground_level = weather_main['grnd_level']
+
+        return None
+
+    def get_pressure(self):
+        return self.__pressure
+
+    def get_pressure_sea_level(self):
+        return self.__pressure_sea_level
+
+    def get_pressure_ground_level(self):
+        return self.__pressure_ground_level
