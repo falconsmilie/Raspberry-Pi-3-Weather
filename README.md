@@ -4,7 +4,7 @@ The purpose of this program is to query Open Weather (http://openweathermap.org/
 
 Coming from a PHP background, along the way I hope to achieve the following couple of things;
 
-* Learn Python - for querying and interpreting data from the OpenWeatherMaps service.
+* Learn Python 3 - for querying and interpreting data from the OpenWeatherMaps service.
 * Learn PyQt4 - a set of C++ libraries and development tools that includes platform independent abstractions for desigining the graphical user interfaces.
 
 This project is currently a WIP and does not yet contain a viable release candidate!
