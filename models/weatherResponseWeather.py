@@ -172,6 +172,7 @@ class WeatherResponseWeather(WeatherResponse):
         if 'clouds' in weather:
             if 'all' in weather['clouds']:
                 self.__clouds = weather['clouds']['all']
+        return None
 
     def get_clouds(self):
         return self.__clouds
@@ -180,6 +181,7 @@ class WeatherResponseWeather(WeatherResponse):
         if 'rain' in weather:
             if '3h' in weather['rain']:
                 self.__rain = weather['rain']['3h']
+        return None
 
     def get_rain(self):
         return self.__rain
@@ -188,6 +190,7 @@ class WeatherResponseWeather(WeatherResponse):
         if 'snow' in weather:
             if '3h' in weather['snow']:
                 self.__snow = weather['snow']['3h']
+        return None
 
     def get_snow(self):
         return self.__snow
