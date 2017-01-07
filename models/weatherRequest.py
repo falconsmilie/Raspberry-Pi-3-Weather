@@ -25,16 +25,7 @@ class WeatherRequest(object):
             self.set_api_key(params['api_key'])
             self.set_units(params['units'])
             self.set_lang(params['lang'])
-
-            if (self.__request_type == 'forecast16' or
-                self.__request_type == 'forecast5'):
-                # Count is specific to forecast5 and forecast16 requests
-                if self.__request_type == 'forecast5':
-                    count = params['forecast_count_5']
-                else:
-                    count = params['forecast_count_16']
-
-                self.set_forecast_count(count)
+            self.determine_forecast_count(params)
 
         except KeyError as e:
             raise Exception('Invalid Config key: ' + '{}'.format(e))
@@ -66,8 +57,21 @@ class WeatherRequest(object):
         self.__lang = lang
         return None
 
+    def determine_forecast_count(self, params):
+        """ Count is specific to forecast5 and forecast16 requests """
+
+        if (self.__request_type == 'forecast16' or
+            self.__request_type == 'forecast5'):
+
+            if self.__request_type == 'forecast5':
+                count = params['forecast_count_5']
+            else:
+                count = params['forecast_count_16']
+
+            self.set_forecast_count(count)
+
     def set_forecast_count(self, count):
-        """ Set the day count for forecast 16 request """
+        """ Set the day count for forecast 5 and 16 requests """
         self.__forecast_count = count
         return None
 
@@ -85,7 +89,7 @@ class WeatherRequest(object):
         # different endpoints and allow for a 'count' parameter.
         if (self.__request_type == 'forecast5' or
             self.__request_type == 'forecast16'):
-            # Both forecasts except a count value
+            # Both forecasts except a count value which has been set
             payload['cnt'] = self.__forecast_count
 
             if self.__request_type == 'forecast5':
