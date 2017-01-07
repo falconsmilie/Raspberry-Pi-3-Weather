@@ -1,7 +1,7 @@
 from models.weatherResponseConditions import *
 
 
-class WeatherResponseList(object):
+class WeatherResponseListItem(object):
 
     def __init__(self):
         """ Members of List """

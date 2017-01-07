@@ -1,5 +1,5 @@
 from models.weatherResponse import *
-from models.weatherResponseList import *
+from models.weatherResponseListItem import *
 
 
 class WeatherResponseForecast5(WeatherResponse):
@@ -46,7 +46,7 @@ class WeatherResponseForecast5(WeatherResponse):
 
         for list_item in weather['list']:
 
-            list_response = WeatherResponseList()
+            list_response = WeatherResponseListItem()
             list_response.set_response(list_item)
 
             self.__weather_list.append(list_response)

@@ -1,5 +1,5 @@
 from models.weatherResponse import *
-from models.weatherResponseList import *
+from models.weatherResponseListItem import *
 
 
 class WeatherResponseWeather(WeatherResponse):
@@ -48,7 +48,7 @@ class WeatherResponseWeather(WeatherResponse):
         return None
 
     def set_list(self, weather):
-        list_response = WeatherResponseList()
+        list_response = WeatherResponseListItem()
         list_response.set_response(weather)
         self.__weather_list = list_response
         return None
