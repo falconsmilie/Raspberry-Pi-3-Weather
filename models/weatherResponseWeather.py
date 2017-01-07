@@ -5,10 +5,10 @@ from models.weatherResponseList import *
 class WeatherResponseWeather(WeatherResponse):
 
     def __init__(self):
+        """ Members of the 'weather' type response """
 
         super(WeatherResponse, self).__init__()
 
-        """ Members of the 'weather' type response """
         self.__sunrise = None
         self.__sunset = None
         self.__weather_desc_main = None
