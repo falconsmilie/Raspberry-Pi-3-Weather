@@ -11,18 +11,12 @@ try:
     weather_config = WeatherConfig()
     weather_config.set_config()
     wconfig = weather_config.get_config_all()
-
-    if wconfig is None:
-        raise Exception('No config can be found.')
-
     location = wconfig['location']
     request_type = wconfig['request_type']
 
     # Caching
     weather_cache = WeatherCache()
     weather_cache.clean_cache()
-
-    # Get Weather from Cache
     weather = weather_cache.check_cache(location, request_type)
 
     if weather is None:
@@ -47,20 +41,20 @@ try:
 
     weatherlist = response.get_list()
 
-    # Test forecast 5
-    for w_list in weatherlist:
-        print(w_list.get_temp())
-        print(w_list.get_conditions().get_wind_speed())
+    # Test forecast 5 response
+    #for w_list in weatherlist:
+        #print(w_list.get_temp())
+        #print(w_list.get_conditions().get_wind_speed())
 
-    # Test forecast 16
+    # Test forecast 16 response
     #print(response.get_city_name())
     #for w_list in weatherlist:
         #print(w_list.get_temp_min())
         #print(w_list.get_temp_max())
 
-    # Test weather list
-    #print(weatherlist.get_temp())
-    #print(weatherlist.get_conditions().get_wind_speed())
+    # Test weather response
+    print(weatherlist.get_temp())
+    print(weatherlist.get_conditions().get_wind_speed())
 
 except Exception as e:
     print(e)
