@@ -3,15 +3,6 @@ from os import path
 from pathlib import Path as path_lib
 
 
-class WeatherConfigError(Exception):
-    """ Exception Handling """
-
-    def __int__(self, value):
-        self.value = value
-
-    def __str__(self):
-        return repr(self.value)
-
 class WeatherConfig(object):
 
     def __init__(self):
@@ -34,7 +25,7 @@ class WeatherConfig(object):
             json_config.close()
 
         else:
-            raise WeatherConfigError('Cannot load Weather Config.')
+            raise Exception('Cannot load Weather Config.')
 
         return None
 
@@ -42,7 +33,7 @@ class WeatherConfig(object):
         """ Return all config items """
 
         if self.__config is None:
-            raise WeatherConfigError(
+            raise Exception(
                 'There is nothing in the Weather Config to load.'
             )
 
