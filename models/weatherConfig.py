@@ -12,7 +12,6 @@ class WeatherConfigError(Exception):
     def __str__(self):
         return repr(self.value)
 
-
 class WeatherConfig(object):
 
     def __init__(self):
