@@ -70,6 +70,8 @@ class WeatherRequest(object):
 
             self.set_forecast_count(count)
 
+        return None
+
     def set_forecast_count(self, count):
         """ Set the day count for forecast 5 and 16 requests """
         self.__forecast_count = count
