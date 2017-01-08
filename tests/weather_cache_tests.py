@@ -11,13 +11,14 @@ weather_cache = WeatherCache()
 
 def test_set_cache():
     """" Test setting the cache. Required for all other Cache tests """
-    
-    assert_equal(weather_cache.set_cache(weather_data, location), None)
+
+    assert_equal(weather_cache.set_cache(weather_data, location, 'weather'), None)
 
 def test_check_cache():
     """ Test reading the cache """
 
-    assert_equal(weather_cache.check_cache(location), weather_data)
+    assert_equal(weather_cache.check_cache(location, 'weather'), weather_data)
+    assert_equal(weather_cache.check_cache(str(location) + 'fail', 'weather'), None)
 
 def test_clean_cache():
     """ Clean the cache """
