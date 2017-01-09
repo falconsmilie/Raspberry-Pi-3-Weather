@@ -1,5 +1,3 @@
-from utils.weatherJson import *
-
 class WeatherResponse(object):
 
     def __init__(self):

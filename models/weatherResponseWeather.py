@@ -1,5 +1,6 @@
-from models.weatherResponse import *
-from models.weatherResponseListItem import *
+from models.weatherResponse import WeatherResponse
+from models.weatherResponseListItem import WeatherResponseListItem
+from utils.weatherJson import WeatherJson
 
 
 class WeatherResponseWeather(WeatherResponse):
@@ -9,6 +10,7 @@ class WeatherResponseWeather(WeatherResponse):
 
         super(WeatherResponse, self).__init__()
 
+        self.__json_utils = WeatherJson()
         self.__sunrise = None
         self.__sunset = None
         self.__weather_desc_main = None
@@ -21,8 +23,8 @@ class WeatherResponseWeather(WeatherResponse):
     def set_response(self, weather):
         """ Sets response variables to local members """
         try:
-            json_util = WeatherJson()
-            weather = json_util.fix_json_string(weather)
+            #json_util = WeatherJson()
+            weather = self.__json_utils.fix_json_string(weather)
 
             # Base members
             self.set_city_name(weather['name'])

@@ -1,4 +1,4 @@
-from models.weatherResponseConditions import *
+from models.weatherResponseConditions import WeatherResponseConditions
 
 
 class WeatherResponseListItem(object):
