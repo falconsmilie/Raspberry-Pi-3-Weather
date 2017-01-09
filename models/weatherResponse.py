@@ -1,3 +1,6 @@
+from utils.weatherJson import WeatherJson
+
+
 class WeatherResponse(object):
 
     def __init__(self):
@@ -7,6 +10,10 @@ class WeatherResponse(object):
         self.__country = None
         self.__coord_lat = None
         self.__coord_lon = None
+
+    def fix_json_string(self, weather_string):
+        json_utils = WeatherJson()
+        return json_utils.fix_json_string(weather_string)
 
     def set_city_name(self, name):
         self.__city_name = name
