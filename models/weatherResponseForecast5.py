@@ -7,9 +7,6 @@ class WeatherResponseForecast5(WeatherResponse):
 
     def __init__(self):
         """ Members of the 'forecast5' response """
-
-        super(WeatherResponse, self).__init__()
-
         self.__json_utils = WeatherJson()
         self.__list_count = None
         self.__weather_list = []

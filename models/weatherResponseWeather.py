@@ -7,10 +7,8 @@ class WeatherResponseWeather(WeatherResponse):
 
     def __init__(self):
         """ Members of the 'weather' type response """
-
-        super(WeatherResponse, self).__init__()
-
         self.__json_utils = WeatherJson()
+        self.__response_list_item = WeatherResponseListItem()
         self.__sunrise = None
         self.__sunset = None
         self.__weather_desc_main = None

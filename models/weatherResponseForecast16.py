@@ -7,12 +7,8 @@ from utils.weatherJson import WeatherJson
 
 class WeatherResponseForecast16(WeatherResponse):
 
-
     def __init__(self):
         """ Members of the 'forecast16' response """
-
-        super(WeatherResponse, self).__init__()
-
         self.__json_utils = WeatherJson()
         self.__list_count = None
         self.__weather_list = []
