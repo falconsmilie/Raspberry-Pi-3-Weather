@@ -1,64 +1,71 @@
 class WeatherResponseConditions(object):
+    """ Clouds, rain, snow and wind response data """
 
     def __init__(self):
-        """ Members of this class """
-        self.__clouds = None
-        self.__rain = None
-        self.__snow = None
-        self.__wind = None
+        self._clouds = None
+        self._rain = None
+        self._snow = None
+        self._wind_deg = None
+        self._wind_speed = None
 
     def set_conditions(self, weather):
-        """ A set of weather conditions common to each response """
-        self.set_clouds(weather)
-        self.set_rain(weather)
-        self.set_snow(weather)
-        self.set_wind(weather)
+        self.clouds = weather
+        self.rain = weather
+        self.snow = weather
+        self.wind_deg = weather
+        self.wind_speed = weather
 
-    def set_clouds(self, weather):
+    @property
+    def clouds(self):
+        return self._clouds
+
+    @clouds.setter
+    def clouds(self, weather):
         if 'clouds' in weather:
             if 'all' in weather['clouds']:
-                self.__clouds = weather['clouds']['all']
+                self._clouds = weather['clouds']['all']
         return None
 
-    def get_clouds(self):
-        return self.__clouds
+    @property
+    def rain(self):
+        return self._rain
 
-    def set_rain(self, weather):
+    @rain.setter
+    def rain(self, weather):
         if 'rain' in weather:
             if '3h' in weather['rain']:
-                self.__rain = weather['rain']['3h']
+                self._rain = weather['rain']['3h']
         return None
 
-    def get_rain(self):
-        return self.__rain
+    @property
+    def snow(self):
+        return self._snow
 
-    def set_snow(self, weather):
+    @snow.setter
+    def snow(self, weather):
         if 'snow' in weather:
             if '3h' in weather['snow']:
-                self.__snow = weather['snow']['3h']
+                self._snow = weather['snow']['3h']
         return None
 
-    def get_snow(self):
-        return self.__snow
+    @property
+    def wind_deg(self):
+        return self._wind_deg
 
-    def set_wind(self, weather):
-
+    @wind_deg.setter
+    def wind_deg(self, weather):
         if 'wind' in weather:
             if 'deg' in weather['wind']:
-                self.set_wind_deg(weather['wind']['deg'])
+                self._wind_deg = weather['wind']['deg']
+        return None
+
+    @property
+    def wind_speed(self):
+        return self._wind_speed
+
+    @wind_speed.setter
+    def wind_speed(self, weather):
+        if 'wind' in weather:
             if 'speed' in weather['wind']:
-                self.set_wind_speed(weather['wind']['speed'])
-
-    def set_wind_deg(self, wind_deg):
-        self.__wind_deg = wind_deg
+                self._wind_speed = weather['wind']['speed']
         return None
-
-    def get_wind_deg(self):
-        return self.__wind_deg
-
-    def set_wind_speed(self, wind_speed):
-        self.__wind_speed = wind_speed
-        return None
-
-    def get_wind_speed(self):
-        return self.__wind_speed

@@ -2,162 +2,190 @@ class WeatherResponseListItemForecast16(object):
 
     def __init__(self):
         """ Members of ListItem """
-        self.__temp_min = None
-        self.__temp_max = None
-        self.__temp_morn = None
-        self.__temp_day = None
-        self.__temp_eve = None
-        self.__temp_night = None
-        self.__humidity = None
-        self.__wind_speed = None
-        self.__wind_deg = None
-        self.__pressure = None
-        self.__clouds = None
-        self.__snow = None
-        self.__rain = None
-        self.__weather_description = None
-        self.__weather_description_main = None
-        self.__weather_icon = None
-        self.__time_of_weather = None
+        self._temp_min = None
+        self._temp_max = None
+        self._temp_morn = None
+        self._temp_day = None
+        self._temp_eve = None
+        self._temp_night = None
+        self._humidity = None
+        self._wind_speed = None
+        self._wind_deg = None
+        self._pressure = None
+        self._clouds = None
+        self._snow = None
+        self._rain = None
+        self._weather_desc = None
+        self._weather_desc_main = None
+        self._weather_icon = None
+        self._time_of_weather = None
 
     def set_response(self, weather):
         """ Sets response variables to local members """
         try:
-            self.set_temp_min(weather['temp']['min'])
-            self.set_temp_max(weather['temp']['max'])
-            self.set_temp_morn(weather['temp']['morn'])
-            self.set_temp_day(weather['temp']['day'])
-            self.set_temp_eve(weather['temp']['eve'])
-            self.set_temp_night(weather['temp']['night'])
-            self.set_humidity(weather['humidity'])
-            self.set_pressure(weather['pressure'])
-            self.set_wind_speed(weather['speed'])
-            self.set_wind_deg(weather['deg'])
-            self.set_clouds(weather)
-            self.set_snow(weather)
-            self.set_rain(weather)
-            self.set_weather_icon(weather['weather'][0]['icon'])
-            self.set_weather_description(
-                weather['weather'][0]['description']
-            )
-            self.set_weather_description_main(
-                weather['weather'][0]['main']
-            )
+            self._temp_min = weather['temp']['min']
+            self._temp_max = weather['temp']['max']
+            self._temp_morn = weather['temp']['morn']
+            self._temp_day = weather['temp']['day']
+            self._temp_eve = weather['temp']['eve']
+            self._temp_night = weather['temp']['night']
+            self._humidity = weather['humidity']
+            self._pressure = weather['pressure']
+            self._wind_speed = weather['speed']
+            self._wind_deg = weather['deg']
+            self._weather_icon = weather['weather'][0]['icon']
+            self._weather_desc = weather['weather'][0]['description']
+            self._weather_desc_main = weather['weather'][0]['main']
+            self._clouds = weather
+            self._snow = weather
+            self._rain = weather
 
         except KeyError as e:
             raise Exception('Invalid Response Key: ' + '{}'.format(e))
 
-    def set_temp_min(self, temp_min):
-        self.__temp_min = temp_min
+    @property
+    def temp_min(self):
+        return self._temp_min
+
+    @temp_min.setter
+    def temp_min(self, temp_min):
+        self._temp_min = temp_min
         return None
 
-    def get_temp_min(self):
-        return self.__temp_min
+    @property
+    def temp_max(self):
+        return self._temp_max
 
-    def set_temp_max(self, temp_max):
-        self.__temp_max = temp_max
+    @temp_max.setter
+    def temp_max(self, temp_max):
+        self._temp_max = temp_max
         return None
 
-    def get_temp_max(self):
-        return self.__temp_max
+    @property
+    def temp_morn(self):
+        return self._temp_morn
 
-    def set_temp_morn(self, temp_morn):
-        self.__temp_morn = temp_morn
+    @temp_morn.setter
+    def temp_morn(self, temp_morn):
+        self._temp_morn = temp_morn
         return None
 
-    def get_temp_morn(self):
-        return self.__temp_morn
+    @property
+    def temp_day(self):
+        return self._temp_day
 
-    def set_temp_day(self, temp_day):
-        self.__temp_day = temp_day
+    @temp_day.setter
+    def temp_day(self, temp_day):
+        self._temp_day = temp_day
         return None
 
-    def get_temp_day(self):
-        return self.__temp_day
+    @property
+    def temp_eve(self):
+        return self._temp_eve
 
-    def set_temp_eve(self, temp_eve):
-        self.__temp_eve = temp_eve
+    @temp_eve.setter
+    def temp_eve(self, temp_eve):
+        self._temp_eve = temp_eve
         return None
 
-    def get_temp_eve(self):
-        return self.__temp_eve
+    @property
+    def temp_night(self):
+        return self._temp_night
 
-    def set_temp_night(self, temp_night):
-        self.__temp_night = temp_night
+    @temp_night.setter
+    def temp_night(self, temp_night):
+        self._temp_night = temp_night
         return None
 
-    def get_temp_night(self):
-        return self.__temp_night
+    @property
+    def humidity(self):
+        return self._humidity
 
-    def set_humidity(self, humidity):
-        self.__humidity = humidity
+    @humidity.setter
+    def humidity(self, humidity):
+        self._humidity = humidity
         return None
 
-    def get_humidity(self):
-        return self.__humidity
+    @property
+    def pressure(self):
+        return self._pressure
 
-    def set_pressure(self, pressure):
-        self.__pressure = pressure
+    @pressure.setter
+    def pressure(self, pressure):
+        self._pressure = pressure
         return None
 
-    def get_pressure(self):
-        return self.__pressure
+    @property
+    def wind_speed(self):
+        return self._wind_speed
 
-    def set_wind_speed(self, wind_speed):
-        self.__wind_speed = wind_speed
+    @wind_speed.setter
+    def wind_speed(self, wind_speed):
+        self._wind_speed = wind_speed
         return None
 
-    def get_wind_speed(self):
-        return self.__wind_speed
+    @property
+    def wind_deg(self):
+        return self._wind_deg
 
-    def set_wind_deg(self, wind_deg):
-        self.__wind_deg = wind_deg
+    @wind_deg.setter
+    def wind_deg(self, wind_deg):
+        self._wind_deg = wind_deg
         return None
 
-    def get_wind_deg(self):
-        return self.__wind_deg
+    @property
+    def clouds(self):
+        return self._clouds
 
-    def set_clouds(self, weather):
+    @clouds.setter
+    def clouds(self, weather):
         if 'clouds' in weather:
-            self.__clouds = weather['clouds']
+            self._clouds = weather['clouds']
         return None
 
-    def get_clouds(self):
-        return self.__clouds
+    @property
+    def snow(self):
+        return self._snow
 
-    def set_snow(self, weather):
+    @snow.setter
+    def snow(self, weather):
         if 'snow' in weather:
-            self.__snow = weather['snow']
+            self._snow = weather['snow']
         return None
 
-    def get_snow(self):
-        return self.__snow
+    @property
+    def rain(self):
+        return self._rain
 
-    def set_rain(self, weather):
+    @rain.setter
+    def rain(self, weather):
         if 'rain' in weather:
-            self.__rain = weather['rain']
+            self._rain = weather['rain']
         return None
 
-    def get_rain(self):
-        return self.__rain
+    @property
+    def weather_icon(self):
+        return self._weather_icon
 
-    def set_weather_icon(self, description):
-        self.__weather_icon = description
+    @weather_icon.setter
+    def weather_icon(self, description):
+        self._weather_icon = description
         return None
 
-    def get_weather_icon(self):
-        return self.__weather_icon
+    @property
+    def weather_desc(self):
+        return self._weather_desc
 
-    def set_weather_description(self, description):
-        self.__weather_description = description
+    @weather_desc.setter
+    def weather_desc(self, description):
+        self._weather_desc = description
         return None
 
-    def get_weather_description(self):
-        return self.__weather_description
+    @property
+    def weather_desc_main(self):
+        return self._weather_desc_main
 
-    def set_weather_description_main(self, description):
-        self.__weather_description_main = description
+    @weather_desc_main.setter
+    def weather_desc_main(self, description):
+        self._weather_desc_main = description
         return None
-
-    def get_weather_description_main(self):
-        return self.__weather_description_main

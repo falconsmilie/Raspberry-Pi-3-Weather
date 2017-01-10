@@ -1,9 +1,10 @@
-from models.weatherCache import *
-from models.weatherConfig import *
-from models.weatherRequest import *
-from models.weatherResponseWeather import *
-from models.weatherResponseForecast5 import *
-from models.weatherResponseForecast16 import *
+from models.weatherCache import WeatherCache
+from models.weatherConfig import WeatherConfig
+from models.weatherRequest import WeatherRequest
+from models.weatherResponse import (
+    WeatherResponse, WeatherResponseWeather,
+    WeatherResponseForecast5, WeatherResponseForecast16
+)
 
 # Testing Controller
 try:
@@ -39,22 +40,24 @@ try:
 
     response.set_response(weather)
 
-    weatherlist = response.get_list()
+    weatherlist = response.get_weather_list()
 
     # Test forecast 5 response
+    #print(response.city_name)
     #for w_list in weatherlist:
-        #print(w_list.get_temp())
-        #print(w_list.get_conditions().get_wind_speed())
+        #print(w_list.temp)
+        #print(w_list.get_conditions().wind_speed)
 
     # Test forecast 16 response
-    #print(response.get_city_name())
-    #for w_list in weatherlist:
-        #print(w_list.get_temp_min())
-        #print(w_list.get_temp_max())
+    print(response.city_name)
+    for w_list in weatherlist:
+        print(w_list.temp_min)
+        print(w_list.temp_max)
 
     # Test weather response
-    print(weatherlist.get_temp())
-    print(weatherlist.get_conditions().get_wind_speed())
+    #print(response.city_name)
+    #print(weatherlist.temp)
+    #print(weatherlist.get_conditions().wind_speed)
 
 except Exception as e:
     print(e)

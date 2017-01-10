@@ -5,25 +5,27 @@ class WeatherResponseListItem(object):
 
     def __init__(self):
         """ Members of List """
-        self.__temp = None
-        self.__temp_min = None
-        self.__temp_max = None
-        self.__humidity = None
-        self.__wind_speed = None
-        self.__wind_deg = None
-        self.__pressure = None
-        self.__pressure_sea_level = None
-        self.__pressure_ground_level = None
-        self.__conditions = None
+        self._temp = None
+        self._temp_min = None
+        self._temp_max = None
+        self._humidity = None
+        self._wind_speed = None
+        self._wind_deg = None
+        self._pressure = None
+        self._pressure_sea_level = None
+        self._pressure_ground_level = None
+        self._conditions = None
 
     def set_response(self, weather):
         """ Sets response variables to local members """
         try:
-            self.set_temp(weather['main']['temp'])
-            self.set_temp_min(weather['main']['temp_min'])
-            self.set_temp_max(weather['main']['temp_max'])
-            self.set_humidity(weather['main']['humidity'])
-            self.set_pressures(weather['main'])
+            self._temp = weather['main']['temp']
+            self._temp_min = weather['main']['temp_min']
+            self._temp_max = weather['main']['temp_max']
+            self._humidity = weather['main']['humidity']
+            self._pressure = weather['main']
+            self._pressure_sea_level = weather['main']
+            self._pressure_ground_level = weather['main']
 
             # weatherResponseConditions object
             self.set_conditions(weather)
@@ -31,72 +33,86 @@ class WeatherResponseListItem(object):
         except KeyError as e:
             raise Exception('Invalid Response Key: ' + '{}'.format(e))
 
-    def set_temp(self, temp):
+    @property
+    def temp(self):
+        return self._temp
+
+    @temp.setter
+    def temp(self, temp):
         """ Temperature. Unit Default: Kelvin,
         User defined options: Metric: Celsius, Imperial: Fahrenheit.
         """
-        self.__temp = temp
+        self._temp = temp
         return None
 
-    def get_temp(self):
-        return self.__temp
+    @property
+    def temp_min(self):
+        return self._temp_min
 
-    def set_temp_min(self, temp_min):
+    @temp_min.setter
+    def temp_min(self, temp_min):
         """ Minimum temperature at the moment. This is deviation from
         current temp that is possible for large cities.
         """
-        self.__temp_min = temp_min
+        self._temp_min = temp_min
         return None
 
-    def get_temp_min(self):
-        return self.__temp_min
+    @property
+    def temp_max(self):
+        return self._temp_max
 
-    def set_temp_max(self, temp_max):
+    @temp_min.setter
+    def temp_max(self, temp_max):
         """ Minimum temperature at the moment. This is deviation from
         current temp that is possible for large cities.
         """
-        self.__temp_max = temp_max
+        self._temp_max = temp_max
         return None
 
-    def get_temp_max(self):
-        return self.__temp_max
+    @property
+    def humidity(self):
+        return self._humidity
 
-    def set_humidity(self, humidity):
-        self.__humidity = humidity
+    @humidity.setter
+    def humidity(self, humidity):
+        self._humidity = humidity
         return None
 
-    def get_humidity(self):
-        return self.__humidity
+    @property
+    def pressure(self):
+        return self._pressure
 
-    def set_pressures(self, weather_main):
-        """ Atmospheric pressure (on sea level, if no
-        sea_level or grnd_level data), hPa
-        """
+    @pressure.setter
+    def pressure(self, weather_main):
         if 'pressure' in weather_main:
-            self.__pressure = weather_main['pressure']
-
-        if 'sea_level' in weather_main:
-            self.__pressure_sea_level = weather_main['sea_level']
-
-        if 'grnd_level' in weather_main:
-            self.__pressure_ground_level = weather_main['grnd_level']
-
+            self._pressure = weather_main['pressure']
         return None
 
-    def get_pressure(self):
-        return self.__pressure
+    @property
+    def pressure_sea_level(self):
+        return self._pressure_sea_level
 
-    def get_pressure_sea_level(self):
-        return self.__pressure_sea_level
+    @pressure_sea_level.setter
+    def pressure_sea_level(self, weather_main):
+        if 'sea_level' in weather_main:
+            self._pressure_sea_level = weather_main['sea_level']
+        return None
 
-    def get_pressure_ground_level(self):
-        return self.__pressure_ground_level
+    @property
+    def pressure_ground_level(self):
+        return self._pressure_ground_level
+
+    @pressure_ground_level.setter
+    def pressure_ground_level(self, weather_main):
+        if 'grnd_level' in weather_main:
+            self._pressure_ground_level = weather_main['grnd_level']
+        return None
+
+    def get_conditions(self):
+        return self._conditions
 
     def set_conditions(self, weather):
         condition_response = WeatherResponseConditions()
         condition_response.set_conditions(weather)
-        self.__conditions = condition_response
+        self._conditions = condition_response
         return None
-
-    def get_conditions(self):
-        return self.__conditions
