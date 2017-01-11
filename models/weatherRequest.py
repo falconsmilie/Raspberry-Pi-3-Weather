@@ -3,7 +3,7 @@ from requests import get
 
 class WeatherRequest(object):
 
-    def _init_(self):
+    def __init__(self):
         """ Construct sets members required for processing request. """
 
         self._endpoint = 'http://api.openweathermap.org/data/2.5/'
