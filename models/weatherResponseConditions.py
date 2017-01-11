@@ -26,7 +26,6 @@ class WeatherResponseConditions(object):
             if 'deg' in weather['wind']:
                 self._wind_deg = weather['wind']['deg']
 
-        if 'wind' in weather:
             if 'speed' in weather['wind']:
                 self._wind_speed = weather['wind']['speed']
 
