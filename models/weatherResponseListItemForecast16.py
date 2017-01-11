@@ -36,9 +36,13 @@ class WeatherResponseListItemForecast16(object):
             self._weather_icon = weather['weather'][0]['icon']
             self._weather_desc = weather['weather'][0]['description']
             self._weather_desc_main = weather['weather'][0]['main']
-            self._clouds = weather
-            self._snow = weather
-            self._rain = weather
+
+            if 'clouds' in weather:
+                self._clouds = weather['clouds']
+            if 'snow' in weather:
+                self._snow = weather['snow']
+            if 'rain' in weather:
+                self._rain = weather['rain']
 
         except KeyError as e:
             raise Exception('Invalid Response Key: ' + '{}'.format(e))
@@ -138,9 +142,8 @@ class WeatherResponseListItemForecast16(object):
         return self._clouds
 
     @clouds.setter
-    def clouds(self, weather):
-        if 'clouds' in weather:
-            self._clouds = weather['clouds']
+    def clouds(self, clouds):
+        self._clouds = clouds
         return None
 
     @property
@@ -148,9 +151,8 @@ class WeatherResponseListItemForecast16(object):
         return self._snow
 
     @snow.setter
-    def snow(self, weather):
-        if 'snow' in weather:
-            self._snow = weather['snow']
+    def snow(self, snow):
+        self._snow = snow
         return None
 
     @property
@@ -158,9 +160,8 @@ class WeatherResponseListItemForecast16(object):
         return self._rain
 
     @rain.setter
-    def rain(self, weather):
-        if 'rain' in weather:
-            self._rain = weather['rain']
+    def rain(self, rain):
+        self._rain = rain
         return None
 
     @property
