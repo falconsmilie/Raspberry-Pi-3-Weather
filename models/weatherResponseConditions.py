@@ -9,11 +9,11 @@ class WeatherResponseConditions(object):
         self._wind_speed = None
 
     def set_conditions(self, weather):
-        self.clouds = weather
-        self.rain = weather
-        self.snow = weather
-        self.wind_deg = weather
-        self.wind_speed = weather
+        self._clouds = weather
+        self._rain = weather
+        self._snow = weather
+        self._wind_deg = weather
+        self._wind_speed = weather
 
     @property
     def clouds(self):
