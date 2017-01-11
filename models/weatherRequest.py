@@ -3,17 +3,17 @@ from requests import get
 
 class WeatherRequest(object):
 
-    def __init__(self):
+    def _init_(self):
         """ Construct sets members required for processing request. """
 
-        self.__endpoint = 'http://api.openweathermap.org/data/2.5/'
-        self.__request_timeout = 10
-        self.__request_type = None
-        self.__location = None
-        self.__api_key = None
-        self.__units = None
-        self.__lang = None
-        self.__forecast_count = None
+        self._endpoint = 'http://api.openweathermap.org/data/2.5/'
+        self._request_timeout = 10
+        self._request_type = None
+        self._location = None
+        self._api_key = None
+        self._units = None
+        self._lang = None
+        self._forecast_count = None
 
     def set_params(self, params):
         """ Set local configuration values """
@@ -34,36 +34,36 @@ class WeatherRequest(object):
 
     def set_request_type(self, request_type):
         """ The type of request the user wants """
-        self.__request_type = request_type
+        self._request_type = request_type
         return None
 
     def set_location(self, location):
         """ Set the location we want to query """
-        self.__location = '{}'.format(location)
+        self._location = '{}'.format(location)
         return None
 
     def set_api_key(self, api_key):
         """ Set the client's API key for accessing OpenWeatherMaps """
-        self.__api_key = api_key
+        self._api_key = api_key
         return None
 
     def set_units(self, units):
         """ Set the unit weather is returned in """
-        self.__units = units
+        self._units = units
         return None
 
     def set_lang(self, lang):
         """ Set the Langauge Description is returned in """
-        self.__lang = lang
+        self._lang = lang
         return None
 
     def determine_forecast_count(self, params):
         """ Count is specific to forecast5 and forecast16 requests """
 
-        if (self.__request_type == 'forecast16' or
-            self.__request_type == 'forecast5'):
+        if (self._request_type == 'forecast16' or
+            self._request_type == 'forecast5'):
 
-            if self.__request_type == 'forecast5':
+            if self._request_type == 'forecast5':
                 count = params['forecast_count_5']
             else:
                 count = params['forecast_count_16']
@@ -74,37 +74,37 @@ class WeatherRequest(object):
 
     def set_forecast_count(self, count):
         """ Set the day count for forecast 5 and 16 requests """
-        self.__forecast_count = count
+        self._forecast_count = count
         return None
 
     def get_weather(self):
         """ Send the request """
 
         payload = {
-            'id': self.__location,
-            'units': self.__units,
-            'lang': self.__lang,
-            'APPID': self.__api_key
+            'id': self._location,
+            'units': self._units,
+            'lang': self._lang,
+            'APPID': self._api_key
         }
 
         # Two types of 'forecast' requests are available. They both have
         # different endpoints and allow for a 'count' parameter.
-        if (self.__request_type == 'forecast5' or
-            self.__request_type == 'forecast16'):
+        if (self._request_type == 'forecast5' or
+            self._request_type == 'forecast16'):
             # Both forecasts except a count value which has been set
-            payload['cnt'] = self.__forecast_count
+            payload['cnt'] = self._forecast_count
 
-            if self.__request_type == 'forecast5':
+            if self._request_type == 'forecast5':
                 self.set_request_type('forecast')
 
-            elif self.__request_type == 'forecast16':
+            elif self._request_type == 'forecast16':
                 self.set_request_type('forecast/daily')
 
         try:
             response = get(
-                self.__endpoint + self.__request_type,
+                self._endpoint + self._request_type,
                 params=payload,
-                timeout=self.__request_timeout
+                timeout=self._request_timeout
             ).json()
 
         except ValueError as e:
@@ -115,13 +115,13 @@ class WeatherRequest(object):
     def validate_response(self, response):
         """ Validate the response"""
 
-        if self.__request_type == 'weather':
+        if self._request_type == 'weather':
             response = self.validate_response_weather(response)
 
-        elif self.__request_type == 'forecast':
+        elif self._request_type == 'forecast':
             response = self.validate_response_forecast(response)
 
-        elif self.__request_type == 'forecast/daily':
+        elif self._request_type == 'forecast/daily':
             response = self.validate_response_forecast(response)
 
         return response
