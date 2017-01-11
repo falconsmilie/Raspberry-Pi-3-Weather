@@ -79,7 +79,6 @@ class WeatherResponseWeather(WeatherResponse):
         self._weather_desc = None
         self._weather_icon_id = None
         self._time_of_weather = None
-        self._pressure = None
         self._weather_list = None
 
     def set_response(self, weather):
@@ -100,12 +99,12 @@ class WeatherResponseWeather(WeatherResponse):
                 coord_lon.fset(self, weather['coord']['lon'])
 
             # 'Weather' response type members
-            self.sunrise = weather['sys']['sunrise']
-            self.sunset = weather['sys']['sunset']
-            self.weather_desc_main = weather['weather'][0]['main']
-            self.weather_desc = weather['weather'][0]['description']
-            self.weather_icon_id = weather['weather'][0]['icon']
-            self.time_of_weather = weather['dt']
+            self._sunrise = weather['sys']['sunrise']
+            self._sunset = weather['sys']['sunset']
+            self._weather_desc_main = weather['weather'][0]['main']
+            self._weather_desc = weather['weather'][0]['description']
+            self._weather_icon_id = weather['weather'][0]['icon']
+            self._time_of_weather = weather['dt']
 
             # weatherResponseList object
             self.set_weather_list(weather)
@@ -172,61 +171,6 @@ class WeatherResponseWeather(WeatherResponse):
         self._time_of_weather = time_of_weather
         return None
 
-    @property
-    def pressure(self):
-        return self._pressure
-
-    @pressure.setter
-    def pressure(self, pressure):
-        """ Atmospheric pressure (on sea level, if no
-        sea_level or grnd_level data), hPa
-        """
-        self._pressure = pressure
-        return None
-
-    @property
-    def temp(self):
-        return self._temp
-
-    @temp.setter
-    def temp(self, temp):
-        """ Temperature. Unit: Kelvin, Celsius, Fahrenheit. """
-        self._temp = temp
-        return None
-
-    @property
-    def temp_min(self):
-        return self._temp_min
-
-    @temp_min.setter
-    def temp_min(self, temp_min):
-        """ Minimum temperature at the moment. This is deviation from
-        current temp that is possible for large cities.
-        """
-        self._temp_min = temp_min
-        return None
-
-    @property
-    def temp_max(self):
-        return self._temp_max
-
-    @temp_max.setter
-    def temp_max(self, temp_max):
-        """ Minimum temperature at the moment. This is deviation from
-        current temp that is possible for large cities.
-        """
-        self._temp_max = temp_max
-        return None
-
-    @property
-    def humidity(self):
-        return self._humidity
-
-    @humidity.setter
-    def humidity(self, humidity):
-        self._humidity = humidity
-        return None
-
     def get_weather_list(self):
         return self._weather_list
 
@@ -238,6 +182,7 @@ class WeatherResponseWeather(WeatherResponse):
 
 
 class WeatherResponseForecast5(WeatherResponse):
+    """ Handles response for 5 day forecast """
 
     def __init__(self):
         """ Members of the 'forecast5' response """
@@ -292,6 +237,7 @@ class WeatherResponseForecast5(WeatherResponse):
 
 
 class WeatherResponseForecast16(WeatherResponse):
+    """ Handles response for 16 day forecast """
 
     def __init__(self):
         """ Members of the 'forecast16' response """
