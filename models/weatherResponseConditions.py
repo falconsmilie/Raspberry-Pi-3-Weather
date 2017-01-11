@@ -9,21 +9,34 @@ class WeatherResponseConditions(object):
         self._wind_speed = None
 
     def set_conditions(self, weather):
-        self._clouds = weather
-        self._rain = weather
-        self._snow = weather
-        self._wind_deg = weather
-        self._wind_speed = weather
+
+        if 'clouds' in weather:
+            if 'all' in weather['clouds']:
+                self._clouds = weather['clouds']['all']
+
+        if 'rain' in weather:
+            if '3h' in weather['rain']:
+                self._rain = weather['rain']['3h']
+
+        if 'snow' in weather:
+            if '3h' in weather['snow']:
+                self._snow = weather['snow']['3h']
+
+        if 'wind' in weather:
+            if 'deg' in weather['wind']:
+                self._wind_deg = weather['wind']['deg']
+
+        if 'wind' in weather:
+            if 'speed' in weather['wind']:
+                self._wind_speed = weather['wind']['speed']
 
     @property
     def clouds(self):
         return self._clouds
 
     @clouds.setter
-    def clouds(self, weather):
-        if 'clouds' in weather:
-            if 'all' in weather['clouds']:
-                self._clouds = weather['clouds']['all']
+    def clouds(self, clouds):
+        self._clouds = clouds
         return None
 
     @property
@@ -31,10 +44,8 @@ class WeatherResponseConditions(object):
         return self._rain
 
     @rain.setter
-    def rain(self, weather):
-        if 'rain' in weather:
-            if '3h' in weather['rain']:
-                self._rain = weather['rain']['3h']
+    def rain(self, rain):
+        self._rain = rain
         return None
 
     @property
@@ -42,10 +53,8 @@ class WeatherResponseConditions(object):
         return self._snow
 
     @snow.setter
-    def snow(self, weather):
-        if 'snow' in weather:
-            if '3h' in weather['snow']:
-                self._snow = weather['snow']['3h']
+    def snow(self, snow):
+        self._snow = snow
         return None
 
     @property
@@ -53,10 +62,8 @@ class WeatherResponseConditions(object):
         return self._wind_deg
 
     @wind_deg.setter
-    def wind_deg(self, weather):
-        if 'wind' in weather:
-            if 'deg' in weather['wind']:
-                self._wind_deg = weather['wind']['deg']
+    def wind_deg(self, wind_deg):
+        self._wind_deg = wind_deg
         return None
 
     @property
@@ -64,8 +71,6 @@ class WeatherResponseConditions(object):
         return self._wind_speed
 
     @wind_speed.setter
-    def wind_speed(self, weather):
-        if 'wind' in weather:
-            if 'speed' in weather['wind']:
-                self._wind_speed = weather['wind']['speed']
+    def wind_speed(self, wind_speed):
+        self._wind_speed = wind_speed
         return None
