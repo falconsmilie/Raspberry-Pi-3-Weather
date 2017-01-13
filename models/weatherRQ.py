@@ -1,7 +1,7 @@
 from requests import get
 
 
-class WeatherRequest(object):
+class WeatherRQ(object):
 
     def __init__(self):
         """ Construct sets members required for processing request. """
