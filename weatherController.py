@@ -23,8 +23,8 @@ try:
     if weather is None:
         # Request weather from Server
         weather_request = WeatherRequest()
-        weather_request.set_params(wconfig)
-        weather = weather_request.get_weather()
+        weather_request.set(wconfig)
+        weather = weather_request.get()
         # Cache response
         weather_cache.set(weather, location, request_type)
 
