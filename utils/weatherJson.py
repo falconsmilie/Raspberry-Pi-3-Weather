@@ -9,8 +9,7 @@ class WeatherJson(object):
         if type(json_string) is dict:
             json_string = json.dumps(json_string)
 
-        weather = json_string.replace("'",'"')
-        weather = weather.replace('u"','"')
+        weather = json_string.replace("'", '"')
         weather = json.loads(weather)
 
         return weather

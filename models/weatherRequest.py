@@ -57,7 +57,7 @@ class WeatherRequest(object):
     def determine_forecast_count(self, params):
         """ Count is specific to forecast5 and forecast16 requests """
         if (self._request_type == 'forecast16' or
-            self._request_type == 'forecast5'):
+                self._request_type == 'forecast5'):
 
             if self._request_type == 'forecast5':
                 count = params['forecast_count_5']
@@ -85,8 +85,8 @@ class WeatherRequest(object):
         # Two types of 'forecast' requests are available. They both have
         # different endpoints and allow for a 'count' parameter.
         if (self._request_type == 'forecast5' or
-            self._request_type == 'forecast16'):
-            # Both forecasts except a count value which has been set
+                self._request_type == 'forecast16'):
+
             payload['cnt'] = self._forecast_count
 
             if self._request_type == 'forecast5':
@@ -124,7 +124,7 @@ class WeatherRequest(object):
             if response['message']:
                 raise Exception('Request Error: ' + response['message'])
 
-        except KeyError as e:
+        except KeyError:
             return response
 
     def validate_forecast(self, response):

@@ -5,6 +5,7 @@ import csv
 import gzip
 import json
 
+
 class CityList(object):
 
     def __init__(self):
@@ -116,7 +117,11 @@ class CityList(object):
 
                 json_data = json.loads(line)
 
-                #print(json_data['_id'], json_data['name'], json_data['country'])
+                #print(
+                    #json_data['_id'],
+                    #json_data['name'],
+                    #json_data['country']
+                #)
 
                 csv_file.writerow([
                     json_data['_id'],
@@ -135,5 +140,3 @@ class CityList(object):
 
     def update(self):
         pass
-
-

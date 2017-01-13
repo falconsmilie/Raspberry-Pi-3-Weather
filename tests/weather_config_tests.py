@@ -1,6 +1,6 @@
 # coding=utf-8
-from nose.tools import *
-from models.weatherConfig import *
+from nose.tools import assert_equal
+from models.weatherConfig import WeatherConfig
 
 config = {
     "api_key": "",
@@ -14,10 +14,12 @@ config = {
 
 weather_config = WeatherConfig()
 
+
 def test_set_config():
     """ Test setting the config """
 
     assert_equal(weather_config.set_config(), None)
+
 
 def test_get_config_all():
     """ Test getting the config """

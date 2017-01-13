@@ -183,6 +183,8 @@ class WeatherResponseWeather(WeatherResponse):
         list_response.set_response(weather)
         super(WeatherResponseWeather, self.__class__). \
             weather_list.fset(self, list_response)
+        return None
+
 
 class WeatherResponseForecast5(WeatherResponse):
     """ Handles response for 5 day forecast """

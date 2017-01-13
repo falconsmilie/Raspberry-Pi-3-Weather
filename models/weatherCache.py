@@ -1,4 +1,4 @@
-from os import path, walk, listdir, remove
+from os import path, listdir, remove
 import glob
 import time
 

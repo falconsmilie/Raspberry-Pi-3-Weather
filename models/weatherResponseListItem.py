@@ -61,7 +61,7 @@ class WeatherResponseListItem(object):
     def temp_max(self):
         return self._temp_max
 
-    @temp_min.setter
+    @temp_max.setter
     def temp_max(self, temp_max):
         """ Minimum temperature at the moment. This is deviation from
         current temp that is possible for large cities.
