@@ -17,8 +17,8 @@ try:
 
     # Caching
     weather_cache = WeatherCache()
-    weather_cache.clean_cache()
-    weather = weather_cache.check_cache(location, request_type)
+    weather_cache.clean()
+    weather = weather_cache.check(location, request_type)
 
     if weather is None:
         # Request weather from Server
@@ -26,7 +26,7 @@ try:
         weather_request.set_params(wconfig)
         weather = weather_request.get_weather()
         # Cache response
-        weather_cache.set_cache(weather, location, request_type)
+        weather_cache.set(weather, location, request_type)
 
     # Package up Response
     if request_type == 'weather':
