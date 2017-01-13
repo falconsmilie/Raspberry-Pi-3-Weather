@@ -10,8 +10,8 @@ from models.weatherResponse import (
 try:
     # Config
     weather_config = WeatherConfig()
-    weather_config.set_config()
-    wconfig = weather_config.get_config_all()
+    weather_config.set()
+    wconfig = weather_config.get()
     location = wconfig['location']
     request_type = wconfig['request_type']
 
