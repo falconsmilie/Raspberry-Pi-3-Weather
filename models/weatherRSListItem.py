@@ -1,7 +1,7 @@
-from models.weatherResponseConditions import WeatherResponseConditions
+from models.weatherRSConditions import WeatherRSConditions
 
 
-class WeatherResponseListItem(object):
+class WeatherRSListItem(object):
 
     def __init__(self):
         """ Members of List """
@@ -112,7 +112,7 @@ class WeatherResponseListItem(object):
         return self._conditions
 
     def set_conditions(self, weather):
-        condition_response = WeatherResponseConditions()
+        condition_response = WeatherRSConditions()
         condition_response.set_conditions(weather)
         self._conditions = condition_response
         return None

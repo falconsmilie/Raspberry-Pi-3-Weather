@@ -1,4 +1,4 @@
-class WeatherResponseConditions(object):
+class WeatherRSConditions(object):
     """ Clouds, rain, snow and wind response data """
 
     def __init__(self):

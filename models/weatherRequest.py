@@ -93,12 +93,14 @@ class WeatherRequest(object):
                 self.set_request_type('forecast')
             else:
                 self.set_request_type('forecast/daily')
+        print(self._endpoint + self._request_type)
         try:
             response = get(
                 self._endpoint + self._request_type,
                 params=payload,
                 timeout=self._request_timeout
             ).json()
+            print(response)
         except ValueError as e:
             raise Exception(e)
 

@@ -1,12 +1,12 @@
 from contracts.abstractBaseResponse import AbstractBaseResponse
-from models.weatherResponseListItem import WeatherResponseListItem
-from models.weatherResponseListItemForecast16 import (
-    WeatherResponseListItemForecast16
+from models.weatherRSListItem import WeatherRSListItem
+from models.weatherRSListItemForecast16 import (
+    WeatherRSListItemForecast16
 )
 from utils.weatherJson import WeatherJson
 
 
-class WeatherResponse(AbstractBaseResponse):
+class WeatherRS(AbstractBaseResponse):
     """ Reads a server response, or cached file, weather data """
 
     def __init__(self):
@@ -78,7 +78,7 @@ class WeatherResponse(AbstractBaseResponse):
         return None
 
 
-class WeatherResponseWeather(WeatherResponse):
+class WeatherRSWeather(WeatherRS):
     """ Handles the 'weather' type response """
 
     def __init__(self):
@@ -97,15 +97,15 @@ class WeatherResponseWeather(WeatherResponse):
             weather = self.fix_json_string(weather)
 
             # Base members
-            super(WeatherResponseWeather, self.__class__). \
+            super(WeatherRSWeather, self.__class__). \
                 city_name.fset(self, weather['name'])
-            super(WeatherResponseWeather, self.__class__). \
+            super(WeatherRSWeather, self.__class__). \
                 city_id.fset(self, weather['id'])
-            super(WeatherResponseWeather, self.__class__). \
+            super(WeatherRSWeather, self.__class__). \
                 country.fset(self, weather['sys']['country'])
-            super(WeatherResponseWeather, self.__class__). \
+            super(WeatherRSWeather, self.__class__). \
                 coord_lat.fset(self, weather['coord']['lat'])
-            super(WeatherResponseWeather, self.__class__). \
+            super(WeatherRSWeather, self.__class__). \
                 coord_lon.fset(self, weather['coord']['lon'])
 
             self.set_weather_list(weather)
@@ -180,14 +180,14 @@ class WeatherResponseWeather(WeatherResponse):
         return None
 
     def set_weather_list(self, weather):
-        list_response = WeatherResponseListItem()
+        list_response = WeatherRSListItem()
         list_response.set_response(weather)
-        super(WeatherResponseWeather, self.__class__). \
+        super(WeatherRSWeather, self.__class__). \
             weather_list.fset(self, list_response)
         return None
 
 
-class WeatherResponseForecast5(WeatherResponse):
+class WeatherRSForecast5(WeatherRS):
     """ Handles response for 5 day forecast """
 
     def __init__(self):
@@ -200,15 +200,15 @@ class WeatherResponseForecast5(WeatherResponse):
             weather = self.fix_json_string(weather)
 
             # Base Members
-            super(WeatherResponseForecast5, self.__class__). \
+            super(WeatherRSForecast5, self.__class__). \
                 city_name.fset(self, weather['city']['name'])
-            super(WeatherResponseForecast5, self.__class__). \
+            super(WeatherRSForecast5, self.__class__). \
                 city_id.fset(self, weather['city']['id'])
-            super(WeatherResponseForecast5, self.__class__). \
+            super(WeatherRSForecast5, self.__class__). \
                 country.fset(self, weather['city']['country'])
-            super(WeatherResponseForecast5, self.__class__). \
+            super(WeatherRSForecast5, self.__class__). \
                 coord_lat.fset(self, weather['city']['coord']['lat'])
-            super(WeatherResponseForecast5, self.__class__). \
+            super(WeatherRSForecast5, self.__class__). \
                 coord_lon.fset(self, weather['city']['coord']['lon'])
 
             self.set_weather_list(weather)
@@ -233,16 +233,16 @@ class WeatherResponseForecast5(WeatherResponse):
     def set_weather_list(self, weather):
         wlist = []
         for list_item in weather['list']:
-            list_response = WeatherResponseListItem()
+            list_response = WeatherRSListItem()
             list_response.set_response(list_item)
             wlist.append(list_response)
 
-        super(WeatherResponseForecast5, self.__class__). \
+        super(WeatherRSForecast5, self.__class__). \
             weather_list.fset(self, wlist)
         return None
 
 
-class WeatherResponseForecast16(WeatherResponse):
+class WeatherRSForecast16(WeatherRS):
     """ Handles response for 16 day forecast """
 
     def __init__(self):
@@ -255,15 +255,15 @@ class WeatherResponseForecast16(WeatherResponse):
             weather = self.fix_json_string(weather)
 
             # Base Members
-            super(WeatherResponseForecast16, self.__class__). \
+            super(WeatherRSForecast16, self.__class__). \
                 city_name.fset(self, weather['city']['name'])
-            super(WeatherResponseForecast16, self.__class__). \
+            super(WeatherRSForecast16, self.__class__). \
                 city_id.fset(self, weather['city']['id'])
-            super(WeatherResponseForecast16, self.__class__). \
+            super(WeatherRSForecast16, self.__class__). \
                 country.fset(self, weather['city']['country'])
-            super(WeatherResponseForecast16, self.__class__). \
+            super(WeatherRSForecast16, self.__class__). \
                 coord_lat.fset(self, weather['city']['coord']['lat'])
-            super(WeatherResponseForecast16, self.__class__). \
+            super(WeatherRSForecast16, self.__class__). \
                 coord_lon.fset(self, weather['city']['coord']['lon'])
 
             self.set_weather_list(weather['list'])
@@ -288,10 +288,10 @@ class WeatherResponseForecast16(WeatherResponse):
     def set_weather_list(self, weather):
         wlist = []
         for list_item in weather:
-            list_response = WeatherResponseListItemForecast16()
+            list_response = WeatherRSListItemForecast16()
             list_response.set_response(list_item)
             wlist.append(list_response)
 
-        super(WeatherResponseForecast16, self.__class__). \
+        super(WeatherRSForecast16, self.__class__). \
             weather_list.fset(self, wlist)
         return None

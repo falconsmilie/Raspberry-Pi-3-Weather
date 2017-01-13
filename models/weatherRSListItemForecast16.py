@@ -1,4 +1,4 @@
-class WeatherResponseListItemForecast16(object):
+class WeatherRSListItemForecast16(object):
 
     def __init__(self):
         """ Members of ListItem """
