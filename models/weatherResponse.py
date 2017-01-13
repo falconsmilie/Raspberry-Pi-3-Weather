@@ -15,6 +15,7 @@ class WeatherResponse(object):
         self._country = None
         self._coord_lat = None
         self._coord_lon = None
+        self._weather_list = None
 
     def fix_json_string(self, weather_string):
         json_utils = WeatherJson()
@@ -66,6 +67,15 @@ class WeatherResponse(object):
         self._coord_lon = coord_lon
         return None
 
+    @property
+    def weather_list(self):
+        return self._weather_list
+
+    @weather_list.setter
+    def weather_list(self, weather_list):
+        self._weather_list = weather_list
+        return None
+
 
 class WeatherResponseWeather(WeatherResponse):
     """ Handles the 'weather' type response """
@@ -79,7 +89,6 @@ class WeatherResponseWeather(WeatherResponse):
         self._weather_desc = None
         self._weather_icon_id = None
         self._time_of_weather = None
-        self._weather_list = None
 
     def set_response(self, weather):
         """ Sets response variables to local members """
@@ -98,6 +107,8 @@ class WeatherResponseWeather(WeatherResponse):
             super(WeatherResponseWeather, self.__class__). \
                 coord_lon.fset(self, weather['coord']['lon'])
 
+            self.set_weather_list(weather)
+
             # 'Weather' response type members
             self._sunrise = weather['sys']['sunrise']
             self._sunset = weather['sys']['sunset']
@@ -105,10 +116,6 @@ class WeatherResponseWeather(WeatherResponse):
             self._weather_desc = weather['weather'][0]['description']
             self._weather_icon_id = weather['weather'][0]['icon']
             self._time_of_weather = weather['dt']
-
-            # weatherResponseList object
-            self.set_weather_list(weather)
-
         except KeyError as e:
             raise Exception('Invalid Response Key: ' + '{}'.format(e))
 
@@ -171,15 +178,11 @@ class WeatherResponseWeather(WeatherResponse):
         self._time_of_weather = time_of_weather
         return None
 
-    def get_weather_list(self):
-        return self._weather_list
-
     def set_weather_list(self, weather):
         list_response = WeatherResponseListItem()
         list_response.set_response(weather)
-        self._weather_list = list_response
-        return None
-
+        super(WeatherResponseWeather, self.__class__). \
+            weather_list.fset(self, list_response)
 
 class WeatherResponseForecast5(WeatherResponse):
     """ Handles response for 5 day forecast """
@@ -187,11 +190,9 @@ class WeatherResponseForecast5(WeatherResponse):
     def __init__(self):
         """ Members of the 'forecast5' response """
         self._list_count = None
-        self._weather_list = []
 
     def set_response(self, weather):
         """ Sets response variables to local members """
-
         try:
             weather = self.fix_json_string(weather)
 
@@ -207,9 +208,10 @@ class WeatherResponseForecast5(WeatherResponse):
             super(WeatherResponseForecast5, self.__class__). \
                 coord_lon.fset(self, weather['city']['coord']['lon'])
 
+            self.set_weather_list(weather)
+
             # Forecast5 members
             self._list_count = weather['cnt']
-            self.set_weather_list(weather)
 
         except KeyError as e:
             raise Exception('Invalid Response Key: ' + '{}'.format(e))
@@ -225,14 +227,15 @@ class WeatherResponseForecast5(WeatherResponse):
         self._weather_list_count = count
         return None
 
-    def get_weather_list(self):
-        return self._weather_list
-
     def set_weather_list(self, weather):
+        wlist = []
         for list_item in weather['list']:
             list_response = WeatherResponseListItem()
             list_response.set_response(list_item)
-            self._weather_list.append(list_response)
+            wlist.append(list_response)
+
+        super(WeatherResponseForecast5, self.__class__). \
+            weather_list.fset(self, wlist)
         return None
 
 
@@ -242,11 +245,9 @@ class WeatherResponseForecast16(WeatherResponse):
     def __init__(self):
         """ Members of the 'forecast16' response """
         self._list_count = None
-        self._weather_list = []
 
     def set_response(self, weather):
         """ Sets response variables to local members """
-
         try:
             weather = self.fix_json_string(weather)
 
@@ -262,9 +263,10 @@ class WeatherResponseForecast16(WeatherResponse):
             super(WeatherResponseForecast16, self.__class__). \
                 coord_lon.fset(self, weather['city']['coord']['lon'])
 
+            self.set_weather_list(weather['list'])
+
             # Local members
             self.list_count = weather['cnt']
-            self.set_weather_list(weather['list'])
 
         except KeyError as e:
             raise Exception('Invalid Response Key: ' + '{}'.format(e))
@@ -280,12 +282,13 @@ class WeatherResponseForecast16(WeatherResponse):
         self._weather_list_count = count
         return None
 
-    def get_weather_list(self):
-        return self._weather_list
-
     def set_weather_list(self, weather):
+        wlist = []
         for list_item in weather:
             list_response = WeatherResponseListItemForecast16()
             list_response.set_response(list_item)
-            self._weather_list.append(list_response)
+            wlist.append(list_response)
+
+        super(WeatherResponseForecast16, self.__class__). \
+            weather_list.fset(self, wlist)
         return None
