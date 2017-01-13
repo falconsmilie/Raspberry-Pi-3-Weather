@@ -1,3 +1,4 @@
+from contracts.abstractBaseResponse import AbstractBaseResponse
 from models.weatherResponseListItem import WeatherResponseListItem
 from models.weatherResponseListItemForecast16 import (
     WeatherResponseListItemForecast16
@@ -5,7 +6,7 @@ from models.weatherResponseListItemForecast16 import (
 from utils.weatherJson import WeatherJson
 
 
-class WeatherResponse(object):
+class WeatherResponse(AbstractBaseResponse):
     """ Reads a server response, or cached file, weather data """
 
     def __init__(self):
