@@ -7,7 +7,7 @@ import gzip
 import json
 
 
-class CityListManagerError(Exception):
+class LocationsManagerError(Exception):
     """ Handle excpetions from attempting to update city configs """
 
     def __init__(self, value):
@@ -17,7 +17,7 @@ class CityListManagerError(Exception):
         return repr(self.value)
 
 
-class CityListManager(object):
+class LocationsManager(object):
 
     def __init__(self):
         # Server location of city list, request params
@@ -36,7 +36,7 @@ class CityListManager(object):
         # Local location of country CSV list
         self._country_list_filename_csv = 'countrylist.csv'
 
-    def download_city_list(self):
+    def create(self):
         """ Download GZIP, unpack, convert unpacked JSON to CSV then
         create country CSV and country city list CSVs
         """
@@ -46,39 +46,39 @@ class CityListManager(object):
             if path_lib(response).is_file():
                 file_to_write = self.unpack(response)
             else:
-                raise CityListManagerError(
+                raise LocationsManagerError(
                     'Error unpacking City List.'
                 )
 
             if file_to_write:
                 json_path = self.json_to_file(file_to_write)
             else:
-                raise CityListManagerError(
+                raise LocationsManagerError(
                     'Error with City List JSON File Write.'
                 )
 
             if json_path:
                 create_csv = self.json_to_csv(json_path)
             else:
-                raise CityListManagerError(
+                raise LocationsManagerError(
                     'Error with City List CSV Conversion.'
                 )
 
             if create_csv:
                 countries_to_csv = self.create_csv_countries()
             else:
-                raise CityListManagerError(
+                raise LocationsManagerError(
                     'Error creating Country CSV file.'
                 )
 
             if countries_to_csv:
                 self.create_csv_city_lists()
             else:
-                raise CityListManagerError(
+                raise LocationsManagerError(
                     'Error creating City List CSVs.'
                 )
 
-        except CityListManagerError as e:
+        except LocationsManagerError as e:
             raise Exception(''.join(['City List Manager:', e]))
 
         except Exception as e:
@@ -124,7 +124,7 @@ class CityListManager(object):
             self._city_list_filename_json
         )
 
-        with open(json_path, 'wb') as json_file:
+        with open(json_path, 'w') as json_file:
             json_file.write(file_to_write)
 
         return json_path
@@ -166,7 +166,7 @@ class CityListManager(object):
 
         countries = []
 
-        with open(csv_path, 'rU') as csv_file:
+        with open(csv_path, 'r') as csv_file:
             for line in csv_file:
                 splits = line.split(',')
                 code = splits[2].rstrip('\n')
@@ -224,7 +224,7 @@ class CityListManager(object):
             self._country_list_filename_csv
         )
 
-        with open(csv_countries_path, 'rU') as countries_file:
+        with open(csv_countries_path, 'r') as countries_file:
             countries_data = countries_file.read()
 
         countries_data.rstrip('\n')
@@ -237,7 +237,7 @@ class CityListManager(object):
         )
 
         countrycities = {}
-        with open(csv_path, 'rU') as csv_file:
+        with open(csv_path, 'r') as csv_file:
             for line in csv_file:
 
                 splits = line.split(',')

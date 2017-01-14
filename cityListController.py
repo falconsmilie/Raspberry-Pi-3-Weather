@@ -1,8 +1,8 @@
-from models.cityListManager import CityListManager
+from models.locationsManager import LocationsManager
 
 try:
-    city_request = CityListManager()
-    city_request.download_city_list()
+    locations = LocationsManager()
+    locations.create()
 
 except Exception as e:
     print(e)
