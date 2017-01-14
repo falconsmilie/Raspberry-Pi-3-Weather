@@ -117,8 +117,11 @@ class WeatherRSWeather(WeatherRS):
             self._weather_desc = weather['weather'][0]['description']
             self._weather_icon_id = weather['weather'][0]['icon']
             self._time_of_weather = weather['dt']
+
         except KeyError as e:
-            raise Exception('Invalid Response Key: ' + '{}'.format(e))
+            raise Exception(
+                ''.join(['Invalid Response Key: ', '{}'.format(e)])
+            )
 
         return None
 
@@ -217,7 +220,9 @@ class WeatherRSForecast5(WeatherRS):
             self._list_count = weather['cnt']
 
         except KeyError as e:
-            raise Exception('Invalid Response Key: ' + '{}'.format(e))
+            raise Exception(
+                ''.join(['Invalid Response Key: ', '{}'.format(e)])
+            )
 
         return None
 
@@ -239,6 +244,7 @@ class WeatherRSForecast5(WeatherRS):
 
         super(WeatherRSForecast5, self.__class__). \
             weather_list.fset(self, wlist)
+
         return None
 
 
@@ -272,7 +278,9 @@ class WeatherRSForecast16(WeatherRS):
             self.list_count = weather['cnt']
 
         except KeyError as e:
-            raise Exception('Invalid Response Key: ' + '{}'.format(e))
+            raise Exception(
+                ''.join(['Invalid Response Key: ', '{}'.format(e)])
+            )
 
         return None
 
@@ -294,4 +302,5 @@ class WeatherRSForecast16(WeatherRS):
 
         super(WeatherRSForecast16, self.__class__). \
             weather_list.fset(self, wlist)
+
         return None
