@@ -7,72 +7,101 @@ import gzip
 import json
 
 
+class CityListManagerError(Exception):
+    """ Handle excpetions from attempting to update city configs """
+
+    def __init__(self, value):
+        self.value = value
+
+    def __str__(self):
+        return repr(self.value)
+
+
 class CityListManager(object):
 
     def __init__(self):
-        # Server location of city list
+        # Server location of city list, request params
         self._endpoint = 'http://bulk.openweathermap.org/sample/'
         self._endpoint_filename = 'city.list.json.gz'
+        self._request_timeout = 10
 
-        self._config_folder = 'config/'
-
+        # Local folder to send downloads to
+        self._config_folder = 'config/locations/'
         # Local location of compressed downloaded file
         self._city_list_filename_compressed = 'citylist.gzip'
-
         # Local location of uncompressed file
         self._city_list_filename_json = 'citylist.json'
-
         # Local location of converted JSON to CSV city list
         self._city_list_filename_csv = 'citylist.csv'
         # Local location of country CSV list
         self._country_list_filename_csv = 'countrylist.csv'
 
-        #Request params
-        self._request_timeout = 10
-
     def download_city_list(self):
+        """ Download GZIP, unpack, convert unpacked JSON to CSV then
+        create country CSV and country city list CSVs
+        """
         try:
             response = self.download()
 
             if path_lib(response).is_file():
                 file_to_write = self.unpack(response)
             else:
-                raise Exception('Error unpacking City List')
+                raise CityListManagerError(
+                    'Error unpacking City List.'
+                )
 
             if file_to_write:
                 json_path = self.json_to_file(file_to_write)
             else:
-                raise Exception('Error with City List JSON File Write')
+                raise CityListManagerError(
+                    'Error with City List JSON File Write.'
+                )
 
             if json_path:
                 create_csv = self.json_to_csv(json_path)
             else:
-                raise Exception('Error with City List CSV Conversion')
+                raise CityListManagerError(
+                    'Error with City List CSV Conversion.'
+                )
 
             if create_csv:
-                self.create_csv_countries()
+                countries_to_csv = self.create_csv_countries()
+            else:
+                raise CityListManagerError(
+                    'Error creating Country CSV file.'
+                )
+
+            if countries_to_csv:
                 self.create_csv_city_lists()
+            else:
+                raise CityListManagerError(
+                    'Error creating City List CSVs.'
+                )
+
+        except CityListManagerError as e:
+            raise Exception(''.join(['City List Manager:', e]))
 
         except Exception as e:
-            raise Exception(e)
+            raise Exception(''.join(['An error occurred: ', e]))
 
     def download(self):
-        """ Downloadds GZIP from server """
+        """ Downloads GZIP from server """
         response = get(
             self._endpoint + self._endpoint_filename,
             timeout=self._request_timeout,
             stream=True
         )
+
         compressed_path = path.join(
             path.dirname(path.realpath('__file__')),
             self._config_folder,
             self._city_list_filename_compressed
         )
+
         with open(compressed_path, 'wb') as f:
             for chunk in response.iter_content(chunk_size=1024):
                 if chunk:
                     f.write(chunk)
-        f.close()
 
         return compressed_path
 
@@ -81,9 +110,8 @@ class CityListManager(object):
         unpacked = False
 
         if path_lib(compressed_path).is_file():
-            uncompressed_file = gzip.open(compressed_path, 'rb')
-            unpacked = uncompressed_file.read()
-            uncompressed_file.close()
+            with gzip.open(compressed_path, 'rb') as uncompressed_file:
+                unpacked = uncompressed_file.read()
             remove(compressed_path)
 
         return unpacked
@@ -95,9 +123,9 @@ class CityListManager(object):
             self._config_folder,
             self._city_list_filename_json
         )
-        json_file = open(json_path, 'wb')
-        json_file.write(file_to_write)
-        json_file.close()
+
+        with open(json_path, 'wb') as json_file:
+            json_file.write(file_to_write)
 
         return json_path
 
@@ -108,22 +136,21 @@ class CityListManager(object):
             self._config_folder,
             self._city_list_filename_csv
         )
-        csv_file_to_read = open(csv_path, 'w')
-        csv_file = csv.writer(csv_file_to_read)
 
-        # JSON is not in correct format
-        with open(json_path, 'r') as f:
-            for line in f:
-                json_data = json.loads(line)
-                csv_file.writerow([
-                    json_data['_id'],
-                    json_data['name'],
-                    json_data['country']
-                    #json_data['coord']['lon'],
-                    #json_data['coord']['lat']
-                ])
-        csv_file_to_read.close()
-        f.close()
+        with open(csv_path, 'w') as csv_file_to_write:
+            csv_file = csv.writer(csv_file_to_write)
+
+            # JSON is not in correct format
+            with open(json_path, 'r') as f:
+                for line in f:
+                    json_data = json.loads(line)
+                    csv_file.writerow([
+                        json_data['_id'],
+                        json_data['name'],
+                        json_data['country']
+                        #json_data['coord']['lon'],
+                        #json_data['coord']['lat']
+                    ])
 
         remove(json_path)
 
@@ -146,7 +173,6 @@ class CityListManager(object):
                 # There can be dodgy data in the downloaded file :\
                 if code not in countries and len(code) == 2:
                     countries.append(code)
-        csv_file.close()
 
         csv_countries_path = path.join(
             path.dirname(path.realpath('__file__')),
@@ -154,8 +180,11 @@ class CityListManager(object):
             self._country_list_filename_csv
         )
 
-        csv_file = csv.writer(open(csv_countries_path, 'w'))
-        csv_file.writerows([sorted(countries)])
+        with open(csv_countries_path, 'w') as csv_file_open:
+            csv_file = csv.writer(csv_file_open)
+            csv_file.writerows([sorted(countries)])
+
+        return True
 
     def create_csv_city_lists(self):
         """ Create list of files by country, containing city data """
@@ -163,7 +192,7 @@ class CityListManager(object):
         countrycities = self.get_country_cities_list()
 
         for country, cities in countrycities.items():
-
+            # Sort by city name, not city ID
             sorted_cities = sorted(cities.items(), key=itemgetter(1))
             seen = set()
             unique_cities = []
@@ -178,13 +207,12 @@ class CityListManager(object):
                 self._config_folder,
                 country + '-cities.csv'
             )
-            csv_file_open = open(csv_path, 'w')
-            csv_file = csv.writer(csv_file_open)
 
-            for cityid, city in unique_cities:
-                csv_file.writerow([cityid, city])
+            with open(csv_path, 'w') as csv_file_open:
+                csv_file = csv.writer(csv_file_open)
 
-            csv_file_open.close()
+                for cityid, city in unique_cities:
+                    csv_file.writerow([cityid, city])
 
         return True
 
@@ -196,9 +224,9 @@ class CityListManager(object):
             self._country_list_filename_csv
         )
 
-        countries_file = open(csv_countries_path)
-        countries_data = countries_file.read()
-        countries_file.close()
+        with open(csv_countries_path, 'rU') as countries_file:
+            countries_data = countries_file.read()
+
         countries_data.rstrip('\n')
         countries = countries_data.split(',')
 
@@ -219,7 +247,6 @@ class CityListManager(object):
                     countrycities \
                         .setdefault(splits[2], {}) \
                         .setdefault(splits[0], splits[1])
-        csv_file.close()
         remove(csv_path)
 
         return countrycities
