@@ -1,7 +1,7 @@
 from abc import ABCMeta, abstractmethod
 
 
-class AbstractBaseResponse(metaclass=ABCMeta):
+class AbstractBaseRS(metaclass=ABCMeta):
 
     @abstractmethod
     def set_weather_list(self):
