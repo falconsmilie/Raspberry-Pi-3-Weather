@@ -1,4 +1,5 @@
 *.pyc
+*.csv
 cache/forecast5/*.json
 cache/forecast16/*.json
 cache/weather/*.json
