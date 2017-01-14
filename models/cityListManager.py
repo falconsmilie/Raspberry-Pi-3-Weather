@@ -205,7 +205,7 @@ class CityListManager(object):
             csv_path = path.join(
                 path.dirname(path.realpath('__file__')),
                 self._config_folder,
-                country + '-cities.csv'
+                '-'.join([country, 'cities.csv'])
             )
 
             with open(csv_path, 'w') as csv_file_open:
