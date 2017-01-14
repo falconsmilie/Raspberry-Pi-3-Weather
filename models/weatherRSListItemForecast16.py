@@ -45,7 +45,9 @@ class WeatherRSListItemForecast16(object):
                 self._rain = weather['rain']
 
         except KeyError as e:
-            raise Exception('Invalid Response Key: ' + '{}'.format(e))
+            raise Exception(
+                ''.join(['Invalid Response Key: ', '{}'.format(e)])
+            )
 
     @property
     def temp_min(self):
