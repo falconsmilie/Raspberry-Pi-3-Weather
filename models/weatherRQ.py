@@ -24,8 +24,11 @@ class WeatherRQ(object):
             self.set_units(params['units'])
             self.set_lang(params['lang'])
             self.determine_forecast_count(params)
+
         except KeyError as e:
-            raise Exception('Invalid Config key: ' + '{}'.format(e))
+            raise Exception(
+                ''.join(['Invalid Config key: ', '{}'.format(e)])
+            )
 
         return None
 
@@ -95,10 +98,11 @@ class WeatherRQ(object):
                 self.set_request_type('forecast/daily')
         try:
             response = get(
-                self._endpoint + self._request_type,
+                ''.join([self._endpoint, self._request_type]),
                 params=payload,
                 timeout=self._request_timeout
             ).json()
+
         except ValueError as e:
             raise Exception(e)
 
@@ -122,7 +126,9 @@ class WeatherRQ(object):
         try:
             # There has been an error returned from the server
             if response['message']:
-                raise Exception('Request Error: ' + response['message'])
+                raise Exception(
+                    ''.join(['Request Error: ', response['message']])
+                )
 
         except KeyError:
             return response
@@ -132,6 +138,8 @@ class WeatherRQ(object):
 
         # There has been an error returned from the server
         if response['message'] and isinstance(response['message'], str):
-            raise Exception('Request Error: ' + response['message'])
+            raise Exception(
+                ''.join(['Request Error: ' + response['message']])
+            )
 
         return response
