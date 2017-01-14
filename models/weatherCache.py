@@ -39,7 +39,9 @@ class WeatherCache(object):
         name = '{}'.format(filename)
 
         files = glob.glob(
-            self._path_to_cache + request + '/*[0-9]-' + name + '.json'
+            ''.join([
+                self._path_to_cache, request, '/*[0-9]-', name, '.json'
+            ])
         )
 
         if files:
@@ -54,9 +56,8 @@ class WeatherCache(object):
 
     def read(self, filename):
         """ Read and return cache file """
-        weather_cache = open(filename, 'rU')
-        weather = weather_cache.read()
-        weather_cache.close()
+        with open(filename, 'rU') as weather_cache:
+            weather = weather_cache.read()
 
         return weather
 
@@ -71,11 +72,10 @@ class WeatherCache(object):
         file_name = path.join(
             self._path_to_cache,
             request_type,
-            cache_time + '-' + location + '.json'
+            ''.join([cache_time, '-', location, '.json'])
         )
 
-        cache_file = open(file_name, 'w+')
-        cache_file.write(weather)
-        cache_file.close()
+        with open(file_name, 'w+') as cache_file:
+            cache_file.write(weather)
 
         return None
