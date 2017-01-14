@@ -1,7 +1,7 @@
-from models.cityList import CityList
+from models.cityListManager import CityListManager
 
 try:
-    city_request = CityList()
+    city_request = CityListManager()
     city_request.download_city_list()
 
 except Exception as e:
