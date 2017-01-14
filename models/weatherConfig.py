@@ -22,9 +22,10 @@ class WeatherConfig(object):
         )
 
         if path_lib(config_file_path).is_file():
-            json_config = open(config_file_path, 'rU')
-            self._config = json.load(json_config)
-            json_config.close()
+
+            with open(config_file_path, 'rU') as json_config:
+                self._config = json.load(json_config)
+
             self.validate()
         else:
             raise Exception('Cannot load Weather Config.')
