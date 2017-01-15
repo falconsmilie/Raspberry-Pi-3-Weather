@@ -83,7 +83,11 @@ class LocationsManager(object):
             for line in cities_csv:
                 line = line.rstrip('\n')
                 city_id_name = line.split(',')
-                cities.append(city_id_name)
+                cities.append(
+                    ''.join(
+                        [city_id_name[1], ' (', city_id_name[0], ')']
+                    )
+                )
 
         else:
             raise LocationsManagerError(
