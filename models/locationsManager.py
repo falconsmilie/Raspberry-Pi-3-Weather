@@ -27,14 +27,44 @@ class LocationsManager(object):
 
         # Local folder to send downloads to
         self._config_folder = 'config/locations/'
-        # Local location of compressed downloaded file
+        # Local name of compressed downloaded file
         self._city_list_filename_compressed = 'citylist.gzip'
-        # Local location of uncompressed file
+        # Local name of uncompressed file
         self._city_list_filename_json = 'citylist.json'
-        # Local location of converted JSON to CSV city list
+        # Local name of converted JSON to CSV city list
         self._city_list_filename_csv = 'citylist.csv'
-        # Local location of country CSV list
+        # Local name of country CSV list
         self._country_list_filename_csv = 'countrylist.csv'
+
+    def get_countries(self):
+        """ Reads country csv file and returns a list """
+        country_csv_path = path.join(
+            path.dirname(path.realpath('__file__')),
+            self._config_folder,
+            self._country_list_filename_csv
+        )
+
+        countries = []
+
+        if path_lib(country_csv_path).is_file():
+
+            with open(country_csv_path, 'r') as f:
+                countries_csv = f.read()
+
+            splits = countries_csv.split(',')
+
+            for split in splits:
+                countries.append(split)
+
+        else:
+            raise LocationsManagerError(
+                'Locations do not exist. Please Update Locations.'
+            )
+
+        return countries
+
+    def get_cities(self, countryid):
+        pass
 
     def create(self):
         """ Download GZIP, unpack, convert unpacked JSON to CSV then
@@ -82,7 +112,7 @@ class LocationsManager(object):
             raise Exception(''.join(['City List Manager:', e]))
 
         except Exception as e:
-            raise Exception(''.join(['An error occurred: ', e]))
+            raise Exception(''.join(['Unexpected Error: ', e]))
 
     def download(self):
         """ Downloads GZIP from server """
