@@ -24,7 +24,7 @@ class LanguageManager(object):
                 language_json = json.load(language_config)
 
             for lang_id, lang in language_json.items():
-                languages.append(''.join([lang,' (', lang_id, ')']))
+                languages.append(''.join([lang, ' (', lang_id, ')']))
 
             languages = sorted(languages)
 
