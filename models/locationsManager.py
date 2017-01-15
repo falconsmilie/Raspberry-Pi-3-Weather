@@ -58,13 +58,37 @@ class LocationsManager(object):
 
         else:
             raise LocationsManagerError(
-                'Locations do not exist. Please Update Locations.'
+                'Countries do not exist. Please Update Locations.'
             )
 
         return countries
 
     def get_cities(self, countryid):
-        pass
+        """ Opens cities file based on Country ID and returns a dict """
+        cities_csv_path = path.join(
+            path.dirname(path.realpath('__file__')),
+            self._config_folder,
+            '-'.join([countryid, 'cities.csv'])
+        )
+
+        cities = {}
+
+        if path_lib(cities_csv_path).is_file():
+
+            with open(cities_csv_path, 'r') as f:
+                cities_csv = f.readlines()
+
+            for line in cities_csv:
+                line = line.rstrip('\n')
+                splits = line.split(',')
+                cities.update({splits[0]: splits[1]})
+
+        else:
+            raise LocationsManagerError(
+                'Cities do not exist. Please Update Locations.'
+            )
+
+        return cities
 
     def create(self):
         """ Download GZIP, unpack, convert unpacked JSON to CSV then

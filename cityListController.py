@@ -11,7 +11,8 @@ try:
     print(countries)
 
     # gets list of cities based on country code
-
+    cities = locations.get_cities('AW')
+    print(cities)
 
 except Exception as e:
     print(e)
