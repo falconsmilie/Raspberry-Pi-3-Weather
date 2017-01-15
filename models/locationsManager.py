@@ -35,6 +35,8 @@ class LocationsManager(object):
         self._city_list_filename_csv = 'citylist.csv'
         # Local name of country CSV list
         self._country_list_filename_csv = 'countrylist.csv'
+        # Suffix for city CSVs that are created per country
+        self._city_list_file_suffix = '-cities.csv'
 
     def get_countries(self):
         """ Reads country csv file and returns a list """
@@ -64,14 +66,14 @@ class LocationsManager(object):
         return countries
 
     def get_cities(self, countryid):
-        """ Opens cities file based on Country ID and returns a dict """
+        """ Opens cities file based on Country ID and returns a list """
         cities_csv_path = path.join(
             path.dirname(path.realpath('__file__')),
             self._config_folder,
-            '-'.join([countryid, 'cities.csv'])
+            ''.join([countryid, self._city_list_file_suffix])
         )
 
-        cities = {}
+        cities = []
 
         if path_lib(cities_csv_path).is_file():
 
@@ -80,8 +82,8 @@ class LocationsManager(object):
 
             for line in cities_csv:
                 line = line.rstrip('\n')
-                splits = line.split(',')
-                cities.update({splits[0]: splits[1]})
+                city_id_name = line.split(',')
+                cities.append(city_id_name)
 
         else:
             raise LocationsManagerError(
@@ -259,7 +261,7 @@ class LocationsManager(object):
             csv_path = path.join(
                 path.dirname(path.realpath('__file__')),
                 self._config_folder,
-                '-'.join([country, 'cities.csv'])
+                ''.join([country, self._city_list_file_suffix])
             )
 
             with open(csv_path, 'w') as csv_file_open:

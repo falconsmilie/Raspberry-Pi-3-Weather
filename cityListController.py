@@ -7,10 +7,10 @@ try:
     # locations.create()
 
     # Gets list of countries
-    countries = locations.get_countries()
-    print(countries)
+    #countries = locations.get_countries()
+    #print(countries)
 
-    # gets list of cities based on country code
+    # Gets list of cities based on country code
     cities = locations.get_cities('AW')
     print(cities)
 
