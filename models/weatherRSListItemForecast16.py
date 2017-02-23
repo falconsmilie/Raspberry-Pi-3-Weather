@@ -49,6 +49,8 @@ class WeatherRSListItemForecast16(object):
                 ''.join(['Invalid Response Key: ', '{}'.format(e)])
             )
 
+        return None
+
     @property
     def temp_min(self):
         return self._temp_min
