@@ -56,7 +56,7 @@ class WeatherCache(object):
 
     def read(self, filename):
         """ Read and return cache file """
-        with open(filename, 'rU') as weather_cache:
+        with open(filename, 'r') as weather_cache:
             weather = weather_cache.read()
 
         return weather
