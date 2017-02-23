@@ -35,6 +35,8 @@ class WeatherRSListItem(object):
                 ''.join(['Invalid Response Key: ', '{}'.format(e)])
             )
 
+        return None
+
     @property
     def temp(self):
         return self._temp
