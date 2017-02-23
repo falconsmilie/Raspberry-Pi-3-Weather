@@ -29,6 +29,8 @@ class WeatherRSConditions(object):
             if 'speed' in weather['wind']:
                 self._wind_speed = weather['wind']['speed']
 
+        return None
+
     @property
     def clouds(self):
         return self._clouds
