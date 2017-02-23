@@ -25,7 +25,7 @@ try:
         # Request weather from Server
         weather_request = WeatherRQ()
         weather_request.set(wconfig)
-        weather = weather_request.get()
+        weather = weather_request.get_weather()
         # Cache response
         weather_cache.set(weather, location, request_type)
 

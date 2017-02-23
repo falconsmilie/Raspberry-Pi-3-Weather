@@ -76,7 +76,7 @@ class WeatherRQ(object):
         self._forecast_count = count
         return None
 
-    def get(self):
+    def get_weather(self):
         """ Send the request """
         payload = {
             'id': self._location,
